@@ -16,7 +16,7 @@ class cls_user
      */
     public function isConnected() :bool
     {
-        if( isset( $_SESSION['login'] ) ){
+        if( isset( $_SESSION['profil'] ) ){
             return true;
         }
         else{
@@ -34,8 +34,20 @@ class cls_user
     {
         $cls_check = new cls_check();
 
+        $params['login'] = htmlspecialchars( $params[ 'login' ] );
+        $params['password'] = htmlspecialchars( $params[ 'password' ] );
         $cls_check->checkLogin( $params );
-        // var_dump( $this->loginExist( $params['login'] ) );
+        
+        session_start();
+
+        $token = session_id().microtime().random_int( 0, 99999 );
+        $token = hash( 'sha512', $token );
+
+        $_SESSION[ 'profil' ] = [
+            'login' => $params[ 'login' ],
+            'role' => 'user',
+            'token' => $token
+        ];
     }
 
     /**
@@ -44,10 +56,10 @@ class cls_user
      * @param string $params
      * @return array
      */
-    public function loginExist( string $params ) : array
+    public function getLogin( string $params ) : array
     {
         $req = "
-            SELECT user.iduser
+            SELECT *
             FROM user
             WHERE user.login = :login
         ";
@@ -74,8 +86,19 @@ class cls_user
 
         $sql = $this->pdo()->prepare( $req );
         $sql->bindValue( ':login', $params[ 'login' ], PDO::PARAM_STR );
-        $sql->bindValue( ':password', $params[ 'password' ], PDO::PARAM_STR );
+        $sql->bindValue( ':password', password_hash( $params[ 'password' ], PASSWORD_BCRYPT ), PDO::PARAM_STR );
 
         $sql->execute();
+    }
+
+    public function join( $params ){
+        $cls_check = new cls_check;
+        $params[ 'login' ] = htmlspecialchars( $params[ 'login' ] );
+        $params[ 'password' ] = htmlspecialchars( $params[ 'password' ] );
+        $params[ 'password_confirmation' ] = htmlspecialchars( $params[ 'password_confirmation' ] );
+
+        $cls_check->checkJoin( $params );
+
+        $this->addUser( $params );
     }
 }

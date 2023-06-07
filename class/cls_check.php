@@ -5,8 +5,35 @@ class cls_check
 {
     public function checkLogin( $params ){
         $cls_user = new cls_user();
-        if( count( $cls_user->loginExist( $params['login'] ) ) == 0 ){
-            throw new Exception( 'Identifiants non-valides !' );
+        // var_dump( $cls_user->getLogin( $params[ 'login' ] ) );
+        // exit;
+        $user = $cls_user->getLogin( $params[ 'login' ] );
+        if( count( $cls_user->getLogin( $params['login'] ) ) == 0 || !password_verify( $params[ 'password' ], $user[ 0 ]->password ) || !$params[ 'login' ] || !$params[ 'password' ] ){
+            throw new Exception( 'Identifiant ou mot de passe invalides !' );
+        }
+    }
+
+    public function checkJoin( $params ){
+        $cls_user = new cls_user();
+
+        if( count( $cls_user->getLogin( $params['login'] ) ) > 0 ){
+            throw new Exception( 'Login déjà existant' );
+        }
+
+        if( !$params[ 'login' ] || !$params[ 'password' ] || !$params[ 'password_confirmation' ] ){
+            throw new Exception( 'Veuillez compléter les champs requis' );
+        }
+
+        if ( !filter_var( $params[ 'login' ], FILTER_VALIDATE_EMAIL ) && strlen( $params[ 'login' ] ) > 255 ) {
+            throw new Exception( 'Veuillez rentrer un format de mail valide et avec 255 caractères maximum.' );
+          }
+
+        if ( ( strlen( $params[ 'password' ] ) < 8 || strlen( $params[ 'password' ] ) > 255 ) || !preg_match("/\d/", $params[ 'password' ] ) || !preg_match("/[A-Z]/", $params[ 'password' ] ) || !preg_match("/[a-z]/", $params[ 'password' ] ) || !preg_match( "/\W/", $params[ 'password' ] ) ) {
+            throw new Exception( 'Votre mot de passe doit contenir au moins 8 caractères, une minuscule, une majuscule, un chiffre et un caractère spécial' );
+        }
+
+        if( $params[ 'password' ] != $params[ 'password_confirmation' ] ){
+            throw new Exception( 'Les mots de passes de confirmation ne sont pas identiques.' );
         }
     }
 }

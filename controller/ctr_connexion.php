@@ -14,7 +14,5 @@ catch( Exception $e )
     $_SESSION[ 'alert' ][ 'danger' ] = $e->getMessage();
 }
 
-// echo $_SESSION[ 'alert' ];
-// echo json_encode( $out );
 header('Location: ../index.php');
 exit;

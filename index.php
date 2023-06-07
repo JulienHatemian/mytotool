@@ -11,7 +11,7 @@
         header('Location: connexion.php');
     }
 ?>
-    <h1>Page accueil</h1>
+    <h1>Vos listes</h1>
 <?php
     include './assets/partials/footer.php';
 ?>

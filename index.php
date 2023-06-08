@@ -3,18 +3,63 @@
     include './assets/include/inc.php';
     include './assets/partials/nav.php';
 
-    $cls_liste = new cls_liste();
+    $cls_list = new cls_list();
     $cls_user = new cls_user();
 
     if( $cls_user->isConnected() === false ){
         header('Location: connexion.php');
     }else{
         $login = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
-        var_dump( $cls_liste->getListByUser( $login[ 0 ]->iduser ) );
+        $listes = $cls_list->getListByUser( $login[ 0 ]->iduser );
+        $types = $cls_list->getTypeList();
     }
 ?>
-    <h1>Vos listes</h1>
-    
+    <h1>Vos lists</h1>
+    <div class="lists container d-flex justify-content-around">
+        <?php foreach( $listes as $liste ){ ?>
+            <a class="list d-flex justify-content-center align-items-center" href="#">
+                <p class="fw-bold"><?= $liste->libelle ?></p>
+            </a>
+        <?php } ?>
+
+        <a class="list add-list d-flex justify-content-center align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#add-list">
+            <p>+</p>
+        </a>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="add-list" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Ajouter une nouvelle liste</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="select-type">Type de liste:</label>
+                <select class="form-select mb-3" aria-label=".form-select-lg" id="select-type" name="type">
+                    <?php foreach( $types as $type ){ ?>
+                        <option value="<?= $type->idtypelist ?>"><?= $type->libelle ?></option>
+                    <?php } ?>
+                </select>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Libelle</span>
+                    <input type="text" aria-label="libelle list" class="form-control" name="libelle">
+                </div>
+
+                <div class="form-floating">
+                    <textarea class="form-control description-list" placeholder="De quoi parle votre list ?" id="floatingTextarea" name="description"></textarea>
+                    <label for="floatingTextarea">Description</label>
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-success">Valider</button>
+            </div>
+            </div>
+        </div>
+    </div>
 <?php
     include './assets/partials/footer.php';
 ?>

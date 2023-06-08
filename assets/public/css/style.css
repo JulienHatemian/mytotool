@@ -1,3 +1,23 @@
 #connexion{
     width: 20em;
 }
+
+.list{
+    height: 10em;
+    width: 10em;
+    border: 5px solid black;
+    border-radius: 12px;
+}
+
+.add-list p{
+    font-size: 5em;
+}
+
+a, a:hover{
+    text-decoration: none;
+    color: #000000;
+}
+
+.description-list{
+    height: 100px !important;
+}

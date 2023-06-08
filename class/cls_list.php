@@ -1,7 +1,7 @@
 <?php
 
 
-class cls_liste
+class cls_list
     extends cls_core
 {
     /**
@@ -22,6 +22,19 @@ class cls_liste
 
         $sql = $this->pdo()->prepare( $req );
         $sql->bindValue( ':id', $id, PDO::PARAM_INT );
+
+        $sql->execute();
+
+        return $sql->fetchAll();
+    }
+
+    public function getTypeList(){
+        $req = "
+            SELECT *
+            FROM type_list
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
 
         $sql->execute();
 

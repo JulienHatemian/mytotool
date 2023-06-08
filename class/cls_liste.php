@@ -10,12 +10,14 @@ class cls_liste
      * @param integer $id
      * @return array
      */
-    public function getListe( int $id ) :array
+    public function getListByUser( int $id ) :array
     {
         $req = "
             SELECT *
-            FROM liste
-            WHERE :id = 1
+            FROM list
+            LEFT JOIN user
+            ON list.iduser = user.iduser
+            WHERE idlist = :id
         ";
 
         $sql = $this->pdo()->prepare( $req );

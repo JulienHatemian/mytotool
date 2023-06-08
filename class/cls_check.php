@@ -5,8 +5,6 @@ class cls_check
 {
     public function checkLogin( $params ){
         $cls_user = new cls_user();
-        // var_dump( $cls_user->getLogin( $params[ 'login' ] ) );
-        // exit;
         $user = $cls_user->getLogin( $params[ 'login' ] );
         if( count( $cls_user->getLogin( $params['login'] ) ) == 0 || !password_verify( $params[ 'password' ], $user[ 0 ]->password ) || !$params[ 'login' ] || !$params[ 'password' ] ){
             throw new Exception( 'Identifiant ou mot de passe invalides !' );

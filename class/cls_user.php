@@ -61,7 +61,7 @@ class cls_user
         $req = "
             SELECT *
             FROM user
-            WHERE user.login = :login
+            WHERE login = :login
         ";
 
         $sql = $this->pdo()->prepare( $req );

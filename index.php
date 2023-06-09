@@ -14,7 +14,7 @@
         $types = $cls_list->getTypeList();
     }
 ?>
-    <h1>Vos lists</h1>
+    <h1>Vos listes:</h1>
     <div class="lists container d-flex justify-content-around">
         <?php foreach( $listes as $liste ){ ?>
             <a class="list d-flex justify-content-center align-items-center" href="#">
@@ -36,27 +36,31 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <label for="select-type">Type de liste:</label>
-                <select class="form-select mb-3" aria-label=".form-select-lg" id="select-type" name="type">
-                    <?php foreach( $types as $type ){ ?>
-                        <option value="<?= $type->idtypelist ?>"><?= $type->libelle ?></option>
-                    <?php } ?>
-                </select>
+                <form action="./controller/ctr_newlist.php" method="post">
+                    <input type="hidden" value="<?= $login[ 0 ]->iduser ?>" name="user">
+                    <label for="select-type">Type de liste:</label>
+                    <select class="form-select mb-3" aria-label=".form-select-lg" id="select-type" name="type">
+                        <?php foreach( $types as $type ){ ?>
+                            <option value="<?= $type->idtypelist ?>"><?= $type->libelle ?></option>
+                        <?php } ?>
+                    </select>
 
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Libelle</span>
-                    <input type="text" aria-label="libelle list" class="form-control" name="libelle">
-                </div>
-
-                <div class="form-floating">
-                    <textarea class="form-control description-list" placeholder="De quoi parle votre list ?" id="floatingTextarea" name="description"></textarea>
-                    <label for="floatingTextarea">Description</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Libelle</span>
+                        <input type="text" aria-label="libelle list" class="form-control" name="libelle">
                     </div>
-                </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
-                <button type="submit" class="btn btn-success">Valider</button>
-            </div>
+
+                    <div class="form-floating">
+                        <textarea class="form-control description-list" placeholder="De quoi parle votre list ?" id="floatingTextarea" name="description"></textarea>
+                        <label for="floatingTextarea">Description</label>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-success">Valider</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

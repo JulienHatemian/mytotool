@@ -34,4 +34,14 @@ class cls_check
             throw new Exception( 'Les mots de passes de confirmation ne sont pas identiques.' );
         }
     }
+
+    public function checkAddList( $params ){
+        $cls_user = new cls_user();
+        $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
+        var_dump( $user, $params[ 'user' ] );
+        exit;
+        if( $params[ 'user' ] != $user[ 0 ]->iduser ){
+            throw new Exception( 'Utilisateur non-valide.' );
+        }
+    }
 }

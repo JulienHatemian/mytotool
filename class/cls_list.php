@@ -17,7 +17,7 @@ class cls_list
             FROM list
             LEFT JOIN user
             ON list.iduser = user.iduser
-            WHERE idlist = :id
+            WHERE user.iduser = :id
         ";
 
         $sql = $this->pdo()->prepare( $req );
@@ -39,5 +39,42 @@ class cls_list
         $sql->execute();
 
         return $sql->fetchAll();
+    }
+
+    public function addList( $params ){
+        $cls_check = new cls_check();
+
+        $params[ 'libelle' ] = htmlspecialchars( $params[ 'libelle' ] );
+        $params[ 'description' ] = htmlspecialchars( $params[ 'description' ] );
+        $params[ 'type' ] = htmlspecialchars( $params[ 'type' ] );
+        $params[ 'user' ] = htmlspecialchars( $params[ 'user' ] );
+        
+        $cls_check->checkAddList( $params );
+
+        $req = "
+            INSERT INTO list (
+                libelle,
+                description,
+                orderlist, 
+                idtypelist,
+                iduser
+            )
+            VALUES (
+                :libelle,
+                :description,
+                :orderlist,
+                :idtypelist,
+                :iduser
+            )
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':libelle', $params[ 'libelle' ], PDO::PARAM_STR );
+        $sql->bindValue( ':description', $params[ 'description' ], PDO::PARAM_STR );
+        $sql->bindValue( ':orderlist', 1, PDO::PARAM_INT );
+        $sql->bindValue( ':idtypelist', $params[ 'type' ], PDO::PARAM_INT );
+        $sql->bindValue( ':iduser', $params[ 'user' ], PDO::PARAM_INT );
+
+        $sql->execute();
     }
 }

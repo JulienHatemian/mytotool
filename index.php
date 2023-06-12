@@ -15,14 +15,17 @@
     }
 ?>
     <h1>Vos listes:</h1>
-    <div class="lists container d-flex justify-content-around">
+    <div class="alert-error container">
+        <?= alert(); ?>
+    </div>
+    <div class="listes container d-flex">
         <?php foreach( $listes as $liste ){ ?>
-            <a class="list d-flex justify-content-center align-items-center" href="#">
+            <a class="liste d-flex justify-content-center align-items-center" href="list.php?idlist=<?= $liste->idlist ?>">
                 <p class="fw-bold"><?= $liste->libelle ?></p>
             </a>
         <?php } ?>
 
-        <a class="list add-list d-flex justify-content-center align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#add-list">
+        <a class="liste add-list d-flex justify-content-center align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#add-list">
             <p>+</p>
         </a>
     </div>
@@ -31,28 +34,28 @@
     <div class="modal fade" id="add-list" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Ajouter une nouvelle liste</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Ajouter une nouvelle liste</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <form action="./controller/ctr_newlist.php" method="post">
-                    <input type="hidden" value="<?= $login[ 0 ]->iduser ?>" name="user">
-                    <label for="select-type">Type de liste:</label>
-                    <select class="form-select mb-3" aria-label=".form-select-lg" id="select-type" name="type">
-                        <?php foreach( $types as $type ){ ?>
-                            <option value="<?= $type->idtypelist ?>"><?= $type->libelle ?></option>
-                        <?php } ?>
-                    </select>
+                    <div class="modal-body">
+                        <input type="hidden" value="<?= $login[ 0 ]->iduser ?>" name="user">
+                        <label for="select-type">Type de liste:</label>
+                        <select class="form-select mb-3" aria-label=".form-select-lg" id="select-type" name="type">
+                            <?php foreach( $types as $type ){ ?>
+                                <option value="<?= $type->idtypelist ?>"><?= $type->libelle ?></option>
+                            <?php } ?>
+                        </select>
 
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Libelle</span>
-                        <input type="text" aria-label="libelle list" class="form-control" name="libelle">
-                    </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Libelle</span>
+                            <input type="text" aria-label="libelle list" class="form-control" name="libelle">
+                        </div>
 
-                    <div class="form-floating">
-                        <textarea class="form-control description-list" placeholder="De quoi parle votre list ?" id="floatingTextarea" name="description"></textarea>
-                        <label for="floatingTextarea">Description</label>
+                        <div class="form-floating">
+                            <textarea class="form-control description-textarea" placeholder="De quoi parle votre list ?" id="floatingTextarea" name="description"></textarea>
+                            <label for="floatingTextarea">Description</label>
                         </div>
                     </div>
 

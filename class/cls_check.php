@@ -38,10 +38,30 @@ class cls_check
     public function checkAddList( $params ){
         $cls_user = new cls_user();
         $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
-        var_dump( $user, $params[ 'user' ] );
-        exit;
         if( $params[ 'user' ] != $user[ 0 ]->iduser ){
             throw new Exception( 'Utilisateur non-valide.' );
+        }
+    }
+
+    public function checkAddTask( $params ){
+        $cls_user = new cls_user();
+        $cls_list = new cls_list();
+        $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
+        if( $params[ 'user' ] != $user[ 0 ]->iduser ){
+            throw new Exception( 'Utilisateur non-valide.' );
+        }
+
+        if( $cls_list->getListById( $params[ 'list' ] ) === false ){
+            throw new Exception( 'Liste non-valides' );
+            header( 'Location: ../index.php' );
+        }
+
+        if( empty( $params[ 'libelle' ] ) ){
+            throw new Exception( 'Nom de tâche non-valide' );
+        }
+        
+        if( strlen( $params[ 'libelle' ] ) > 255 || strlen( $params[ 'description' ] ) > 255 ){
+            throw new Exception( 'Le nom de la tâche et de la description ne doivent pas exéder les 255 caractères.' );
         }
     }
 }

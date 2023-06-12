@@ -8,10 +8,10 @@
         header('Location: index.php');
     }
 ?>
+<h1>Page de connexion</h1>
 <div class="alert-error container">
     <?= alert(); ?>
-</div>	
-<h1>Page de connexion</h1>
+</div>
 <form class="container d-flex flex-column" action="./controller/ctr_connexion.php" method="post" id="connexion">
     <div class="mb-3">
         <label for="login" class="form-label">Adresse mail</label>

@@ -28,6 +28,27 @@ class cls_list
         return $sql->fetchAll();
     }
 
+    public function getListById( int $id )
+    {
+        $cls_user = new cls_user();
+        $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
+
+        $req = "
+            SELECT *
+            FROM list
+            WHERE idlist = :id
+            AND iduser = :user
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':id', $id, PDO::PARAM_INT );
+        $sql->bindValue( ':user', $user[0]->iduser, PDO::PARAM_INT );
+
+        $sql->execute();
+
+        return $sql->fetch();
+    }
+
     public function getTypeList(){
         $req = "
             SELECT *
@@ -55,14 +76,12 @@ class cls_list
             INSERT INTO list (
                 libelle,
                 description,
-                orderlist, 
                 idtypelist,
                 iduser
             )
             VALUES (
                 :libelle,
                 :description,
-                :orderlist,
                 :idtypelist,
                 :iduser
             )
@@ -71,10 +90,75 @@ class cls_list
         $sql = $this->pdo()->prepare( $req );
         $sql->bindValue( ':libelle', $params[ 'libelle' ], PDO::PARAM_STR );
         $sql->bindValue( ':description', $params[ 'description' ], PDO::PARAM_STR );
-        $sql->bindValue( ':orderlist', 1, PDO::PARAM_INT );
         $sql->bindValue( ':idtypelist', $params[ 'type' ], PDO::PARAM_INT );
         $sql->bindValue( ':iduser', $params[ 'user' ], PDO::PARAM_INT );
 
         $sql->execute();
+    }
+
+    public function addTask( array $params ) :void
+    {
+        $cls_check = new cls_check();
+        
+        $params[ 'libelle' ] = htmlspecialchars( $params[ 'libelle' ] );
+        $params[ 'description' ] = htmlspecialchars( $params[ 'description' ] );
+        $params[ 'user' ] = htmlspecialchars( $params[ 'user' ] );
+        $params[ 'list' ] = htmlspecialchars( $params[ 'list' ] );
+
+        $cls_check->checkAddTask( $params );
+
+        $req = "
+            INSERT INTO task (
+                libelle,
+                description,
+                idlist
+            )
+            VALUES (
+                :libelle,
+                :description,
+                :idlist 
+            )
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':libelle', $params[ 'libelle' ], PDO::PARAM_STR );
+        $sql->bindValue( ':description', $params[ 'description' ], PDO::PARAM_STR );
+        $sql->bindValue( ':idlist', $params[ 'list' ], PDO::PARAM_INT );
+
+        $sql->execute();
+    }
+
+    public function getTaskOnGoing( $id ){
+        $req = "
+            SELECT *
+            FROM task
+            WHERE idlist = :id
+            AND complete = 0
+            ORDER BY idtask
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':id', $id, PDO::PARAM_INT );
+
+        $sql->execute();
+
+        return $sql->fetchAll();
+    }
+
+    public function getTaskComplete( $id ){
+        $req = "
+            SELECT *
+            FROM task
+            WHERE idlist = :id
+            AND complete = 1
+            ORDER BY idtask
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':id', $id, PDO::PARAM_INT );
+
+        $sql->execute();
+
+        return $sql->fetchAll();
     }
 }

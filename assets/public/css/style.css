@@ -46,3 +46,16 @@ a, a:hover{
 .new-task{
     border-right: 3px gray solid;
 }
+
+.logo-list{
+    width: 1.5em;
+    height: auto;
+}
+
+.list-complete, .list-ongoing{
+    max-height: 45vh;
+}
+
+.list-body{
+    overflow-y: scroll;
+}

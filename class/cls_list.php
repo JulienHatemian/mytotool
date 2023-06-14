@@ -161,4 +161,40 @@ class cls_list
 
         return $sql->fetchAll();
     }
+
+    public function getTaskById( $id ){
+        $req = "
+            SELECT
+                task.idtask,
+                task.libelle AS libelle_task,
+                task.description AS description_task,
+                list.libelle AS libelle_list,
+                list.description AS description_list,
+                task.idlist,
+                user.iduser,
+                user.login as login
+            FROM task
+            LEFT JOIN list ON list.idlist = task.idlist
+            LEFT JOIN user ON user.iduser = list.iduser
+            WHERE idtask = :id
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':id', $id, PDO::PARAM_INT );
+
+        $sql->execute();
+
+        return $sql->fetch();
+    }
+
+    public function showModal( $params )
+    {
+        $cls_check = new cls_check();
+
+        $cls_check->checkModal( $params );
+
+        $result = $this->getTaskById( $params );
+
+        return $result;
+    }
 }

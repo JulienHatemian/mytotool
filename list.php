@@ -51,6 +51,11 @@
                         <h2 class="accordion-header" id="flush-heading<?= $key ?>">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $key ?>-ongoing" aria-expanded="false" aria-controls="flush-collapse<?= $key ?>">
                             <?= $item->libelle ?>
+                            <div class="ms-3 btn-action">
+                                <a class="btn btn-warning" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalEdition' )"><img src="./assets/public/img/icons8-edit-text-file-50.png" alt="logo édition" class="logo-list"></a>
+                                <a class="btn btn-danger" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalSuppression' )"><img src="./assets/public/img/icons8-supprimer-50.png" alt="logo suppression" class="logo-list"></a>
+                                <a class="btn btn-success"><img src="./assets/public/img/icons8-approbation-64.png" alt="logo complété" class="logo-list"></a>
+                            </div>
                         </button>
                         </h2>
                         <div id="flush-collapse<?= $key ?>-ongoing" class="accordion-collapse collapse" aria-labelledby="flush-heading<?= $key ?>" data-bs-parent="#accordionFlushOngoing">
@@ -73,6 +78,11 @@
                         <h2 class="accordion-header" id="flush-headingOne">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $key ?>-complete" aria-expanded="false" aria-controls="flush-collapse<?= $key ?>">
                             <?= $item->libelle ?>
+                            <div class="ms-3 btn-action">
+                                <a class="btn btn-warning" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalEdition' )"><img src="./assets/public/img/icons8-edit-text-file-50.png" alt="logo édition" class="logo-list"></a>
+                                <a class="btn btn-danger" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalSuppression' )"><img src="./assets/public/img/icons8-supprimer-50.png" alt="logo suppression" class="logo-list"></a>
+                                <a class="btn btn-success"><img src="./assets/public/img/icons8-minuteur-80.png" alt="logo en cours" class="logo-list"></a>
+                            </div>
                         </button>
                         </h2>
                         <div id="flush-collapse<?= $key ?>-complete" class="accordion-collapse collapse" aria-labelledby="flush-heading<?= $key ?>" data-bs-parent="#accordionFlushComplete">
@@ -87,7 +97,44 @@
     </div>
 </div>
 
+<!-- Modal Suppression -->
+<div class="modal fade" id="modalSuppression" tabindex="-1" aria-labelledby="ModalSuppressionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h1 class="modal-title fs-5 text-white fw-bold" id="ModalSuppressionLabel">Suppression de tâche</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Attention vous allez supprimer la tâche <span class="fw-bold fst-italic text-warning" id="libelle-suppression"></span>, cette opération est <span class="text-danger fw-bold">irréversible</span>. Êtes-vous sûr de vouloir continuer ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Modal Edition -->
+<div class="modal fade" id="modalEdition" tabindex="-1" aria-labelledby="ModalEditionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h1 class="modal-title fs-5 text-white fw-bold" id="ModalEditionLabel">Edition de tâche</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Attention vous allez supprimer cette tâche, cette opération est <span class="text-danger fw-bold">irréversible</span>. Êtes-vous sûr de vouloir continuer ?
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php
     include './assets/partials/footer.php';

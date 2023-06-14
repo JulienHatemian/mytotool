@@ -64,4 +64,14 @@ class cls_check
             throw new Exception( 'Le nom de la tâche et de la description ne doivent pas exéder les 255 caractères.' );
         }
     }
+
+    public function checkModal( $params ){
+        $cls_list = new cls_list();
+        $task = $cls_list->getTaskById( $params );
+
+        if( $task->login != $_SESSION[ 'profil' ][ 'login' ] ){
+            throw new Exception( 'Tâche non-valides' );
+            header( 'Location: ../index.php' );
+        }
+    }
 }

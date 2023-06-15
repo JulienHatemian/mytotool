@@ -128,7 +128,7 @@ class cls_list
         $sql->execute();
     }
 
-    public function getTaskOnGoing( $id ){
+    public function getTaskOnGoing( int $id ) :array{
         $req = "
             SELECT *
             FROM task
@@ -145,7 +145,7 @@ class cls_list
         return $sql->fetchAll();
     }
 
-    public function getTaskComplete( $id ){
+    public function getTaskComplete( int $id ){
         $req = "
             SELECT *
             FROM task
@@ -162,7 +162,7 @@ class cls_list
         return $sql->fetchAll();
     }
 
-    public function getTaskById( $id ){
+    public function getTaskById( int $id ) :object{
         $req = "
             SELECT
                 task.idtask,
@@ -185,6 +185,41 @@ class cls_list
         $sql->execute();
 
         return $sql->fetch();
+    }
+
+    public function editTask( $params ) :void {
+        $cls_check = new cls_check();
+        // $cls_check->checkEditTask();
+
+        $req = "
+            UPDATE task
+            SET libelle = :libelle,
+                description = :description
+            WHERE idtask = :id
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':id', $params[ 'task' ], PDO::PARAM_INT );
+        $sql->bindValue( ':libelle', $params[ 'libelle' ], PDO::PARAM_STR );
+        $sql->bindValue( ':description', $params[ 'description' ], PDO::PARAM_STR );
+
+        $sql->execute();
+    }
+
+    public function deleteTask( $params ) :void {
+        $cls_check = new cls_check();
+        // $cls_check->checkDeleteTask();
+
+        $req = "
+            DELETE
+            FROM task
+            WHERE idtask = :id
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':id', $params[ 'task' ], PDO::PARAM_INT );
+
+        $sql->execute();
     }
 
     public function showModal( $params )

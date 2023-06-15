@@ -8,7 +8,7 @@
 
     if( $cls_user->isConnected() === false ){
         header('Location: connexion.php');
-    }elseif( $cls_list->getListById( $_GET[ 'idlist' ] ) === false ){
+    }elseif( $cls_list->getListById( (int) $_GET[ 'idlist' ] ) === false ){
         $_SESSION['alert']['danger'] = "Paramètres non-valides";
         header( 'Location: index.php' );
     }else{
@@ -50,7 +50,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-heading<?= $key ?>">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $key ?>-ongoing" aria-expanded="false" aria-controls="flush-collapse<?= $key ?>">
-                            <?= $item->libelle ?>
+                            <div><?=  mb_strimwidth( $item->libelle, 0, 90 ) ?></div>
                             <div class="ms-3 btn-action">
                                 <a class="btn btn-warning" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalEdition' )"><img src="./assets/public/img/icons8-edit-text-file-50.png" alt="logo édition" class="logo-list"></a>
                                 <a class="btn btn-danger" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalSuppression' )"><img src="./assets/public/img/icons8-supprimer-50.png" alt="logo suppression" class="logo-list"></a>
@@ -77,11 +77,13 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-headingOne">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $key ?>-complete" aria-expanded="false" aria-controls="flush-collapse<?= $key ?>">
-                            <?= $item->libelle ?>
-                            <div class="ms-3 btn-action">
-                                <a class="btn btn-warning" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalEdition' )"><img src="./assets/public/img/icons8-edit-text-file-50.png" alt="logo édition" class="logo-list"></a>
-                                <a class="btn btn-danger" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalSuppression' )"><img src="./assets/public/img/icons8-supprimer-50.png" alt="logo suppression" class="logo-list"></a>
-                                <a class="btn btn-success"><img src="./assets/public/img/icons8-minuteur-80.png" alt="logo en cours" class="logo-list"></a>
+                            <div><?=  mb_strimwidth( $item->libelle, 0, 90 ) ?></div>
+                            <div class="ms-3 btn-action d-flex justify-content-between">
+                                <a class="btn btn-warning me-1" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalEdition' )"><img src="./assets/public/img/icons8-edit-text-file-50.png" alt="logo édition" class="logo-list"></a>
+                                <a class="btn btn-danger me-1" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalSuppression' )"><img src="./assets/public/img/icons8-supprimer-50.png" alt="logo suppression" class="logo-list"></a>
+                                <form action="#" method="post">
+                                  <a class="btn btn-info" type="submit"><img src="./assets/public/img/icons8-minuteur-80.png" alt="logo en cours" class="logo-list"></a>
+                                </form>
                             </div>
                         </button>
                         </h2>
@@ -105,13 +107,19 @@
         <h1 class="modal-title fs-5 text-white fw-bold" id="ModalSuppressionLabel">Suppression de tâche</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        Attention vous allez supprimer la tâche <span class="fw-bold fst-italic text-warning" id="libelle-suppression"></span>, cette opération est <span class="text-danger fw-bold">irréversible</span>. Êtes-vous sûr de vouloir continuer ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-danger">Supprimer</button>
-      </div>
+      <form action="./controller/ctr_deletetask.php" method="post">
+        <div class="modal-body">
+          <p>
+            Attention vous allez supprimer la tâche <span class="fw-bold fst-italic text-warning" id="libelle-suppression"></span>, cette opération est <span class="text-danger fw-bold">irréversible</span>.<br><br>Êtes-vous sûr de vouloir continuer ?
+          </p>
+          <input type="hidden" name="task" id="delete-task" value="">
+          <input type="hidden" name="list" value="<?= $_GET[ 'idlist' ] ?>">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-danger">Supprimer</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -124,14 +132,22 @@
         <h1 class="modal-title fs-5 text-white fw-bold" id="ModalEditionLabel">Edition de tâche</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        Attention vous allez supprimer cette tâche, cette opération est <span class="text-danger fw-bold">irréversible</span>. Êtes-vous sûr de vouloir continuer ?
+      <form action="./controller/ctr_edittask.php" method="post">
+        <div class="modal-body">
+          <label for="new-task-input" class="mb-1 fw-bold">Libelle tâche:</label>
+          <input type="text" class="form-control" id="edit-task-input" name="libelle">
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-danger">Supprimer</button>
-      </div>
+          <label for="task-description">Description</label>
+          <textarea class="form-control description-textarea" name="description" id="edit-task-description" cols="30" rows="10" placeholder="(Optionnel)"></textarea>
+
+          <input type="hidden" name="task" id="edit-task" value="">
+          <input type="hidden" name="list" value="<?= $_GET[ 'idlist' ] ?>">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-warning text-white">Editer</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

@@ -9,7 +9,7 @@ try
 
     $data = $cls_list->showModal( $_GET[ 'id' ] );
 
-    $out[ 'success' ] = $data->libelle_task;
+    $out[ 'success' ] = $data;
 }
 catch( Exception $e )
 {

@@ -1,6 +1,10 @@
 document.addEventListener( "DOMContentLoaded", function() {
     textLength( 'input-add-libelle-list', 'container-add-libelle', 30 );
     textLength( 'input-add-description-list', 'container-add-description', 255 );
+    textLength( 'edit-task-input', 'edit-task-input', 80 );
+    textLength( 'edit-task-description', 'edit-task-description', 255 );
+    textLength( 'new-task-input', 'new-task-input', 80 );
+    textLength( 'task-description', 'task-description', 255 );
 } )
 
 function modal( id, modalName) {
@@ -64,14 +68,16 @@ function textLength( inputId, parent, max ){
         }
     }
 
-    input.addEventListener( 'input', updateLength );
+    if( input != null ){
+        input.addEventListener( 'input', updateLength );
 
-    const small = document.createElement( 'small' );
-    small.classList.add( 'd-flex' );
+        const small = document.createElement( 'small' );
+        small.classList.add( 'd-flex' );
 
-    small.appendChild( spanNumberCharacters );
-    small.appendChild( document.createTextNode( '/' ) );
-    small.appendChild( spanNumberAllowCharacters );
+        small.appendChild( spanNumberCharacters );
+        small.appendChild( document.createTextNode( '/' ) );
+        small.appendChild( spanNumberAllowCharacters );
 
-    parentContainer.parentNode.insertBefore( small, parentContainer.nextSibling );
+        parentContainer.parentNode.insertBefore( small, parentContainer.nextSibling );
+    }
 }

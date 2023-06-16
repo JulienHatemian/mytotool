@@ -28,10 +28,10 @@
     <div class="new-task d-flex flex-column p-3 align-items-center col-md-3">
         <form action="./controller/ctr_addtask.php" method="post">
             <label for="new-task-input" class="mb-1 fw-bold">Ajouter une nouvelle tâche:</label>
-            <input type="text" class="form-control" id="new-task-input" placeholder="Nouvelle tâche" name="libelle">
+            <input type="text" class="form-control" id="new-task-input" placeholder="Nouvelle tâche" name="libelle" maxlength="80">
 
             <label for="task-description">Description</label>
-            <textarea class="form-control description-textarea" name="description" id="task-description" cols="30" rows="10" placeholder="(Optionnel)"></textarea>
+            <textarea class="form-control description-textarea" name="description" id="task-description" cols="30" rows="10" placeholder="(Optionnel)" maxlength="255"></textarea>
 
             <input type="hidden" value="<?= $_GET[ 'idlist' ] ?>" name="list">
             <input type="hidden" value="<?= $login[ 0 ]->iduser ?>" name="user">
@@ -133,10 +133,10 @@
       <form action="./controller/ctr_edittask.php" method="post">
         <div class="modal-body">
           <label for="new-task-input" class="mb-1 fw-bold">Libelle tâche:</label>
-          <input type="text" class="form-control" id="edit-task-input" name="libelle">
+          <input type="text" class="form-control" id="edit-task-input" name="libelle" maxlength="80">
 
           <label for="task-description">Description</label>
-          <textarea class="form-control description-textarea" name="description" id="edit-task-description" cols="30" rows="10" placeholder="(Optionnel)"></textarea>
+          <textarea class="form-control description-textarea" name="description" id="edit-task-description" cols="30" rows="10" placeholder="(Optionnel)" maxlength="255"></textarea>
 
           <input type="hidden" name="task" id="edit-task" value="">
           <input type="hidden" name="list" value="<?= $_GET[ 'idlist' ] ?>">

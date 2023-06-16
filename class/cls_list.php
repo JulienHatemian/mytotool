@@ -172,7 +172,8 @@ class cls_list
                 list.description AS description_list,
                 task.idlist,
                 user.iduser,
-                user.login as login
+                user.login as login,
+                task.complete
             FROM task
             LEFT JOIN list ON list.idlist = task.idlist
             LEFT JOIN user ON user.iduser = list.iduser
@@ -220,6 +221,64 @@ class cls_list
         $sql->bindValue( ':id', $params[ 'task' ], PDO::PARAM_INT );
 
         $sql->execute();
+    }
+
+    public function updateStatus( int $id ) :void {
+        $cls_check = new cls_check();
+        $id = htmlspecialchars( $id );
+        // $cls_check->checkUpdateStatus();
+
+        if( $this->getStatus( $id ) === 1 ){
+            $this->updateOngoing( $id );
+        }
+        else{
+            $this->updateComplete( $id );
+        }
+        
+    }
+
+    private function updateComplete( int $id ) :void {
+        $req = "
+            UPDATE task
+            SET complete = 1
+            WHERE idtask = :idtask
+            AND complete = 0
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':idtask', $id, PDO::PARAM_INT );
+
+        $sql->execute();
+    }
+
+    private function updateOngoing( int $id ) :void {
+        $req = "
+            UPDATE task
+            SET complete = 0
+            WHERE idtask = :idtask
+            AND complete = 1
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':idtask', $id, PDO::PARAM_INT );
+
+        $sql->execute();
+    }
+
+    public function getStatus( int $id ) :int {
+        $req = "
+            SELECT complete
+            FROM task
+            WHERE idtask = :idtask
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':idtask', $id, PDO::PARAM_INT );
+
+        $sql->execute();
+        $result = $sql->fetch();
+
+        return $result->complete;
     }
 
     public function showModal( $params )

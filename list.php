@@ -50,11 +50,11 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-heading<?= $key ?>">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $key ?>-ongoing" aria-expanded="false" aria-controls="flush-collapse<?= $key ?>">
-                            <div><?=  mb_strimwidth( $item->libelle, 0, 90 ) ?></div>
+                            <div><?=  mb_strimwidth( $item->libelle, 0, 90 ) ?> ............. </div>
                             <div class="ms-3 btn-action">
                                 <a class="btn btn-warning" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalEdition' )"><img src="./assets/public/img/icons8-edit-text-file-50.png" alt="logo édition" class="logo-list"></a>
                                 <a class="btn btn-danger" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalSuppression' )"><img src="./assets/public/img/icons8-supprimer-50.png" alt="logo suppression" class="logo-list"></a>
-                                <a class="btn btn-success"><img src="./assets/public/img/icons8-approbation-64.png" alt="logo complété" class="logo-list"></a>
+                                <a class="btn btn-success" href="./controller/ctr_updatestatus.php?task=<?= $item->idtask ?>&list=<?= $_GET[ 'idlist' ] ?>"><img src="./assets/public/img/icons8-approbation-64.png" alt="logo complété" class="logo-list"></a>
                             </div>
                         </button>
                         </h2>
@@ -77,13 +77,11 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-headingOne">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $key ?>-complete" aria-expanded="false" aria-controls="flush-collapse<?= $key ?>">
-                            <div><?=  mb_strimwidth( $item->libelle, 0, 90 ) ?></div>
+                            <div><?=  mb_strimwidth( $item->libelle, 0, 90 ) ?> ............. </div>
                             <div class="ms-3 btn-action d-flex justify-content-between">
                                 <a class="btn btn-warning me-1" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalEdition' )"><img src="./assets/public/img/icons8-edit-text-file-50.png" alt="logo édition" class="logo-list"></a>
                                 <a class="btn btn-danger me-1" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalSuppression' )"><img src="./assets/public/img/icons8-supprimer-50.png" alt="logo suppression" class="logo-list"></a>
-                                <form action="#" method="post">
-                                  <a class="btn btn-info" type="submit"><img src="./assets/public/img/icons8-minuteur-80.png" alt="logo en cours" class="logo-list"></a>
-                                </form>
+                                <a class="btn btn-info" href="./controller/ctr_updatestatus.php?task=<?= $item->idtask ?>&list=<?= $_GET[ 'idlist' ] ?>"><img src="./assets/public/img/icons8-minuteur-80.png" alt="logo en cours" class="logo-list"></a>
                             </div>
                         </button>
                         </h2>

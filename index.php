@@ -21,7 +21,7 @@
     <div class="listes container d-flex">
         <?php foreach( $listes as $liste ){ ?>
             <a class="liste d-flex justify-content-center align-items-center" href="list.php?idlist=<?= $liste->idlist ?>">
-                <p class="fw-bold"><?= $liste->libelle ?></p>
+                <p class="fw-bold text-break text-center"><?= $liste->libelle ?></p>
             </a>
         <?php } ?>
 
@@ -48,14 +48,14 @@
                             <?php } ?>
                         </select>
 
-                        <div class="input-group mb-3">
+                        <div class="input-group" id="container-add-libelle">
                             <span class="input-group-text">Libelle</span>
-                            <input type="text" aria-label="libelle list" class="form-control" name="libelle">
+                            <input type="text" aria-label="libelle list" class="form-control" name="libelle" id="input-add-libelle-list" maxlength="30">
                         </div>
 
-                        <div class="form-floating">
-                            <textarea class="form-control description-textarea" placeholder="De quoi parle votre list ?" id="floatingTextarea" name="description"></textarea>
-                            <label for="floatingTextarea">Description</label>
+                        <div class="form-floating mt-3" id="container-add-description">
+                            <textarea class="form-control description-textarea" placeholder="De quoi parle votre liste ?" id="input-add-description-list" name="description" maxlength="255"></textarea>
+                            <label for="input-add-description-list">Description</label>
                         </div>
                     </div>
 

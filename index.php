@@ -21,8 +21,14 @@
     <div class="listes container d-flex">
         <?php foreach( $listes as $liste ){ ?>
             <a class="liste d-flex justify-content-center align-items-center" href="list.php?idlist=<?= $liste->idlist ?>">
-                <p class="fw-bold text-break text-center"><?= $liste->libelle ?></p>
+                <p class="fw-bold text-break text-center m-1"><?= $liste->libelle ?></p>
             </a>
+
+            <div class="group-action d-flex justify-content-center align-items-center">
+                <a type="button" class="btn text-bg-warning" href="javascript:;" onclick="javascript:modal( <?= $liste->idlist ?>, 'editList' )" data-bs-toggle="modal" data-bs-target="#editList">Ed</a>
+                <a type="button" class="btn text-bg-danger" href="javascript:;" onclick="javascript:modal( <?= $liste->idlist ?>, 'deleteList' )" data-bs-toggle="modal" data-bs-target="#deleteList">Del</a>
+                <button type="button" class="btn btn-outline-danger">X</button>
+            </div>
         <?php } ?>
 
         <a class="liste add-list d-flex justify-content-center align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#add-list">
@@ -40,7 +46,6 @@
                 </div>
                 <form action="./controller/ctr_newlist.php" method="post">
                     <div class="modal-body">
-                        <input type="hidden" value="<?= $login[ 0 ]->iduser ?>" name="user">
                         <label for="select-type">Type de liste:</label>
                         <select class="form-select mb-3" aria-label=".form-select-lg" id="select-type" name="type">
                             <?php foreach( $types as $type ){ ?>
@@ -49,14 +54,15 @@
                         </select>
 
                         <div class="input-group" id="container-add-libelle">
-                            <span class="input-group-text">Libelle</span>
+                            <label class="input-group-text" for="input-add-libelle-list">Libelle</label>
                             <input type="text" aria-label="libelle list" class="form-control" name="libelle" id="input-add-libelle-list" maxlength="30">
                         </div>
 
-                        <div class="form-floating mt-3" id="container-add-description">
+                        <div class="mt-3" id="container-add-description">
+                            <label for="input-add-description-list" class="form-label">Description</label>
                             <textarea class="form-control description-textarea" placeholder="De quoi parle votre liste ?" id="input-add-description-list" name="description" maxlength="255"></textarea>
-                            <label for="input-add-description-list">Description</label>
                         </div>
+                        <input type="hidden" value="<?= $login[ 0 ]->iduser ?>" name="user">
                     </div>
 
                     <div class="modal-footer">

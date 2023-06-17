@@ -41,6 +41,7 @@
     </div>
 
     <div class="list-overall col-md-8 d-flex flex-column mx-3">
+      <?php if( count( $ongoing ) > 0 || count( $complete ) > 0 ){ ?>
         <?php  if( count( $ongoing ) > 0 ){ ?>
         <div class="list-ongoing mb-5 rounded border-3 border border-secondary">
             <div class="header-list text-center bg-danger fw-bold text-white py-2">Tâches en cours</div>
@@ -95,6 +96,9 @@
         </div>
         <?php } ?>
     </div>
+    <?php }else{ ?>
+      <small class="text-center fst-italic text-secondary mt-5">Aucune tâche renseignée pour le moment</small>
+    <?php } ?>
 </div>
 
 <!-- Modal Suppression -->

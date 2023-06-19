@@ -18,17 +18,11 @@
     <div class="alert-error container">
         <?= alert(); ?>
     </div>
-    <div class="listes container d-flex">
+    <div class="listes container d-flex flex-wrap col-12">
         <?php foreach( $listes as $liste ){ ?>
             <a class="liste d-flex justify-content-center align-items-center" href="list.php?idlist=<?= $liste->idlist ?>">
                 <p class="fw-bold text-break text-center m-1"><?= $liste->libelle ?></p>
             </a>
-
-            <div class="group-action d-flex justify-content-center align-items-center">
-                <a type="button" class="btn text-bg-warning" href="javascript:;" onclick="javascript:modal( <?= $liste->idlist ?>, 'editList' )" data-bs-toggle="modal" data-bs-target="#editList">Ed</a>
-                <a type="button" class="btn text-bg-danger" href="javascript:;" onclick="javascript:modal( <?= $liste->idlist ?>, 'deleteList' )" data-bs-toggle="modal" data-bs-target="#deleteList">Del</a>
-                <button type="button" class="btn btn-outline-danger">X</button>
-            </div>
         <?php } ?>
 
         <a class="liste add-list d-flex justify-content-center align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#add-list">

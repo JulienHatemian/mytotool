@@ -5,7 +5,7 @@ include '../assets/include/inc.php';
 try
 {
     $cls_user = new cls_user();
-    $data = $cls_user->getConnected( $_POST );
+    $data = $cls_user->getConnected( $_POST[ 'login' ], $_POST[ 'password' ] );
 
     $_SESSION[ 'alert' ][ 'success' ] = "Bienvenue";
 }

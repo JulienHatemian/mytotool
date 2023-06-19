@@ -1,6 +1,5 @@
 <?php
 
-
 class cls_list
     extends cls_core
 {
@@ -28,7 +27,7 @@ class cls_list
         return $sql->fetchAll();
     }
 
-    public function getListById( int $id )
+    public function getListById( int $id ) :object
     {
         $cls_user = new cls_user();
         $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
@@ -49,7 +48,8 @@ class cls_list
         return $sql->fetch();
     }
 
-    public function getTypeList(){
+    public function getTypeList() :array
+    {
         $req = "
             SELECT *
             FROM type_list
@@ -62,16 +62,34 @@ class cls_list
         return $sql->fetchAll();
     }
 
-    public function addList( $params ){
+    public function getTypeListById( int $idtype ) :array
+    {
+        $req = "
+            SELECT *
+            FROM type_list
+            WHERE idtypelist = :idtype
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':idtype', $idtype, PDO::PARAM_INT );
+
+        $sql->execute();
+
+        return $sql->fetchAll();
+    }
+
+    public function addList( string $libelle, string $description, int $type, int $user ) :void
+    {
         $cls_check = new cls_check();
 
-        $params[ 'libelle' ] = htmlspecialchars( $params[ 'libelle' ] );
-        $params[ 'description' ] = htmlspecialchars( $params[ 'description' ] );
-        $params[ 'type' ] = htmlspecialchars( $params[ 'type' ] );
-        $params[ 'user' ] = htmlspecialchars( $params[ 'user' ] );
-        
-        $cls_check->checkAddList( $params );
+        $libelle = htmlspecialchars( $libelle );
+        $description = htmlspecialchars( $description );
+        $type = htmlspecialchars( $type );
+        $user = htmlspecialchars( $user );
 
+        $cls_check->checkAddList( $libelle, $description, $type, $user );
+
+        
         $req = "
             INSERT INTO list (
                 libelle,
@@ -88,24 +106,24 @@ class cls_list
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':libelle', $params[ 'libelle' ], PDO::PARAM_STR );
-        $sql->bindValue( ':description', $params[ 'description' ], PDO::PARAM_STR );
-        $sql->bindValue( ':idtypelist', $params[ 'type' ], PDO::PARAM_INT );
-        $sql->bindValue( ':iduser', $params[ 'user' ], PDO::PARAM_INT );
+        $sql->bindValue( ':libelle', $libelle, PDO::PARAM_STR );
+        $sql->bindValue( ':description', $description, PDO::PARAM_STR );
+        $sql->bindValue( ':idtypelist', $type, PDO::PARAM_INT );
+        $sql->bindValue( ':iduser', $user, PDO::PARAM_INT );
 
         $sql->execute();
     }
 
-    public function addTask( array $params ) :void
+    public function addTask( string $libelle, string $description, int $user, int $list ) :void
     {
         $cls_check = new cls_check();
         
-        $params[ 'libelle' ] = htmlspecialchars( $params[ 'libelle' ] );
-        $params[ 'description' ] = htmlspecialchars( $params[ 'description' ] );
-        $params[ 'user' ] = htmlspecialchars( $params[ 'user' ] );
-        $params[ 'list' ] = htmlspecialchars( $params[ 'list' ] );
+        $libelle = htmlspecialchars( $libelle );
+        $description = htmlspecialchars( $description );
+        $user = htmlspecialchars( $user );
+        $list = htmlspecialchars( $list );
 
-        $cls_check->checkAddTask( $params );
+        $cls_check->checkAddTask( $libelle, $description, $user, $list );
 
         $req = "
             INSERT INTO task (
@@ -121,48 +139,49 @@ class cls_list
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':libelle', $params[ 'libelle' ], PDO::PARAM_STR );
-        $sql->bindValue( ':description', $params[ 'description' ], PDO::PARAM_STR );
-        $sql->bindValue( ':idlist', $params[ 'list' ], PDO::PARAM_INT );
+        $sql->bindValue( ':libelle', $libelle, PDO::PARAM_STR );
+        $sql->bindValue( ':description', $description, PDO::PARAM_STR );
+        $sql->bindValue( ':idlist', $list, PDO::PARAM_INT );
 
         $sql->execute();
     }
 
-    public function getTaskOnGoing( int $id ) :array{
+    public function getTaskOnGoing( int $idlist ) :array{
         $req = "
             SELECT *
             FROM task
-            WHERE idlist = :id
+            WHERE idlist = :idlist
             AND complete = 0
             ORDER BY idtask
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':id', $id, PDO::PARAM_INT );
+        $sql->bindValue( ':idlist', $idlist, PDO::PARAM_INT );
 
         $sql->execute();
 
         return $sql->fetchAll();
     }
 
-    public function getTaskComplete( int $id ){
+    public function getTaskComplete( int $idlist ) :array
+    {
         $req = "
             SELECT *
             FROM task
-            WHERE idlist = :id
+            WHERE idlist = :idlist
             AND complete = 1
             ORDER BY idtask
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':id', $id, PDO::PARAM_INT );
+        $sql->bindValue( ':idlist', $idlist, PDO::PARAM_INT );
 
         $sql->execute();
 
         return $sql->fetchAll();
     }
 
-    public function getTaskById( int $id ) :object{
+    public function getTaskById( int $idtask ) :object{
         $req = "
             SELECT
                 task.idtask,
@@ -177,62 +196,75 @@ class cls_list
             FROM task
             LEFT JOIN list ON list.idlist = task.idlist
             LEFT JOIN user ON user.iduser = list.iduser
-            WHERE idtask = :id
+            WHERE idtask = :idtask
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':id', $id, PDO::PARAM_INT );
+        $sql->bindValue( ':idtask', $idtask, PDO::PARAM_INT );
 
         $sql->execute();
 
         return $sql->fetch();
     }
 
-    public function editTask( $params ) :void {
+    public function editTask( int $idtask, int $idlist, string $libelle, string $description ) :void {
         $cls_check = new cls_check();
-        // $cls_check->checkEditTask();
+
+        $idtask = htmlspecialchars( $idtask );
+        $idlist = htmlspecialchars( $idlist );
+        $libelle = htmlspecialchars( $libelle );
+        $description = htmlspecialchars( $description );
+
+        $cls_check->checkEditTask( $idtask, $idlist, $libelle, $description );
 
         $req = "
             UPDATE task
             SET libelle = :libelle,
                 description = :description
-            WHERE idtask = :id
+            WHERE idtask = :idtask
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':id', $params[ 'task' ], PDO::PARAM_INT );
-        $sql->bindValue( ':libelle', $params[ 'libelle' ], PDO::PARAM_STR );
-        $sql->bindValue( ':description', $params[ 'description' ], PDO::PARAM_STR );
+        $sql->bindValue( ':idtask', $idtask, PDO::PARAM_INT );
+        $sql->bindValue( ':libelle', $libelle, PDO::PARAM_STR );
+        $sql->bindValue( ':description', $description, PDO::PARAM_STR );
 
         $sql->execute();
     }
 
-    public function deleteTask( $params ) :void {
+    public function deleteTask( int $idtask, int $idlist ) :void {
         $cls_check = new cls_check();
-        // $cls_check->checkDeleteTask();
+
+        $idtask = htmlspecialchars( $idtask );
+        $idlist = htmlspecialchars( $idlist );
+        $cls_check->checkDeleteTask( $idtask, $idlist );
 
         $req = "
             DELETE
             FROM task
-            WHERE idtask = :id
+            WHERE idtask = :idtask
+            AND idlist = :idlist
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':id', $params[ 'task' ], PDO::PARAM_INT );
+        $sql->bindValue( ':idtask', $idtask, PDO::PARAM_INT );
+        $sql->bindValue( ':idlist', $idlist, PDO::PARAM_INT );
 
         $sql->execute();
     }
 
-    public function updateStatus( int $id ) :void {
+    public function updateStatus( int $idtask ) :void {
         $cls_check = new cls_check();
-        $id = htmlspecialchars( $id );
-        // $cls_check->checkUpdateStatus();
 
-        if( $this->getStatus( $id ) === 1 ){
-            $this->updateOngoing( $id );
+        $idtask = htmlspecialchars( $idtask );
+
+        $cls_check->checkUpdateStatus( $idtask );
+
+        if( $this->getStatus( $idtask ) === 1 ){
+            $this->updateOngoing( $idtask );
         }
         else{
-            $this->updateComplete( $id );
+            $this->updateComplete( $idtask );
         }
         
     }
@@ -265,7 +297,7 @@ class cls_list
         $sql->execute();
     }
 
-    public function getStatus( int $id ) :int {
+    private function getStatus( int $idtask ) :int {
         $req = "
             SELECT complete
             FROM task
@@ -273,7 +305,7 @@ class cls_list
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':idtask', $id, PDO::PARAM_INT );
+        $sql->bindValue( ':idtask', $idtask, PDO::PARAM_INT );
 
         $sql->execute();
         $result = $sql->fetch();
@@ -281,13 +313,13 @@ class cls_list
         return $result->complete;
     }
 
-    public function showModal( $params )
+    public function showModal( int $id ) :object
     {
         $cls_check = new cls_check();
 
-        $cls_check->checkModal( $params );
+        $cls_check->checkModal( $id );
 
-        $result = $this->getTaskById( $params );
+        $result = $this->getTaskById( $id );
 
         return $result;
     }

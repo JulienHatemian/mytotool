@@ -4,12 +4,6 @@
 class cls_user
     extends cls_core
 {
-    public function __construct()
-    {
-        // if( $this->isConnected() === false ){
-        //     header('Location: connexion.php');
-        // }
-    }
     /**
      * Check si connectée
      * @return bool
@@ -30,13 +24,14 @@ class cls_user
      * @param array $params
      * @return array
      */
-    public function getConnected( array $params )
+    // public function getConnected( array $params )
+    public function getConnected( string $login, string $password,  )
     {
         $cls_check = new cls_check();
 
-        $params['login'] = htmlspecialchars( $params[ 'login' ] );
-        $params['password'] = htmlspecialchars( $params[ 'password' ] );
-        $cls_check->checkLogin( $params );
+        $login = htmlspecialchars( $login );
+        $password = htmlspecialchars( $password );
+        $cls_check->checkLogin( $login, $password );
         
         session_start();
 
@@ -44,7 +39,7 @@ class cls_user
         $token = hash( 'sha512', $token );
 
         $_SESSION[ 'profil' ] = [
-            'login' => $params[ 'login' ],
+            'login' => $login,
             'role' => 'user',
             'token' => $token
         ];
@@ -56,7 +51,7 @@ class cls_user
      * @param string $params
      * @return array
      */
-    public function getLogin( string $params ) : array
+    public function getLogin( string $login ) : array
     {
         $req = "
             SELECT *
@@ -65,14 +60,15 @@ class cls_user
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':login', $params, PDO::PARAM_STR );
+        $sql->bindValue( ':login', $login, PDO::PARAM_STR );
 
         $sql->execute();
 
         return $sql->fetchAll();
     }
 
-    public function addUser( $params ){
+    public function addUser( string $login, string $password ) :void
+    {
         $req = "
             INSERT INTO user (
                 login, 
@@ -85,20 +81,20 @@ class cls_user
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':login', $params[ 'login' ], PDO::PARAM_STR );
-        $sql->bindValue( ':password', password_hash( $params[ 'password' ], PASSWORD_BCRYPT ), PDO::PARAM_STR );
+        $sql->bindValue( ':login', $login, PDO::PARAM_STR );
+        $sql->bindValue( ':password', password_hash( $password, PASSWORD_BCRYPT ), PDO::PARAM_STR );
 
         $sql->execute();
     }
 
-    public function join( $params ){
+    public function join( string $login, string $password, string $passwordConfirmation ){
         $cls_check = new cls_check;
-        $params[ 'login' ] = htmlspecialchars( $params[ 'login' ] );
-        $params[ 'password' ] = htmlspecialchars( $params[ 'password' ] );
-        $params[ 'password_confirmation' ] = htmlspecialchars( $params[ 'password_confirmation' ] );
+        $login = htmlspecialchars( $login );
+        $password = htmlspecialchars( $password );
+        $passwordConfirmation = htmlspecialchars( $passwordConfirmation );
 
-        $cls_check->checkJoin( $params );
+        $cls_check->checkJoin( $login, $password, $passwordConfirmation );
 
-        $this->addUser( $params );
+        $this->addUser( $login, $password );
     }
 }

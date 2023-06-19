@@ -8,7 +8,7 @@
 
     if( $cls_user->isConnected() === false ){
         header('Location: connexion.php');
-    }elseif( $cls_list->getListById( (int) $_GET[ 'idlist' ] ) === false ){
+    }elseif( $cls_list->getListById( $_GET[ 'idlist' ] ) === false ){
         $_SESSION['alert']['danger'] = "Paramètres non-valides";
         header( 'Location: index.php' );
     }else{

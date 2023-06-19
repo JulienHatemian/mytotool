@@ -3,10 +3,8 @@ include '../assets/include/inc.php';
 
 try
 {
-    // var_dump( $_POST );
-    // exit;
     $cls_list = new cls_list();
-    $data = $cls_list->editTask( $_POST );
+    $data = $cls_list->editTask( $_POST[ 'task' ], $_POST[ 'list' ], $_POST[ 'libelle' ], $_POST[ 'description' ] );
 
     $_SESSION[ 'alert' ][ 'success' ] = "Tâche modifée";
 }

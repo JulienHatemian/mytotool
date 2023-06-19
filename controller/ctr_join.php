@@ -4,7 +4,7 @@ include '../assets/include/inc.php';
 try
 {
     $cls_user = new cls_user();
-    $data = $cls_user->join( $_POST );
+    $data = $cls_user->join( $_POST[ 'login' ], $_POST[ 'password' ], $_POST[ 'password_confirmation' ] );
 
     $_SESSION[ 'alert' ][ 'success' ] = "Votre compte a bien été créé.";
 }

@@ -39,10 +39,6 @@ a, a:hover{
     background-color: var( --light-gray );
 }
 
-/* .list-overall{
-    border: solid 3px black;
-} */
-
 .new-task{
     border-right: 3px gray solid;
 }
@@ -58,4 +54,21 @@ a, a:hover{
 
 .list-body{
     overflow-y: scroll;
+}
+
+#add-sign{
+    transform-origin: center;
+}
+
+#add-sign:hover{
+    animation: rotation 1.5s ease-in-out infinite;
+}
+
+@keyframes rotation{
+    from{
+        transform: rotate( 0deg );
+    }
+    to{
+        transform: rotate( 360deg );
+    }
 }

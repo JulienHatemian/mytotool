@@ -1,7 +1,6 @@
 <?php
 include '../assets/include/inc.php';
 
-// $out = array();
 try
 {
     $cls_user = new cls_user();

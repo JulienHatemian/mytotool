@@ -82,8 +82,8 @@ class cls_list
     {
         $cls_check = new cls_check();
 
-        $libelle = htmlspecialchars( $libelle );
-        $description = htmlspecialchars( $description );
+        $libelle = htmlspecialchars( trim( $libelle ) );
+        $description = htmlspecialchars( trim( $description ) );
         $type = htmlspecialchars( $type );
         $user = htmlspecialchars( $user );
 
@@ -118,8 +118,8 @@ class cls_list
     {
         $cls_check = new cls_check();
         
-        $libelle = htmlspecialchars( $libelle );
-        $description = htmlspecialchars( $description );
+        $libelle = htmlspecialchars( trim( $libelle ) );
+        $description = htmlspecialchars( trim( $description ) );
         $user = htmlspecialchars( $user );
         $list = htmlspecialchars( $list );
 
@@ -212,8 +212,8 @@ class cls_list
 
         $idtask = htmlspecialchars( $idtask );
         $idlist = htmlspecialchars( $idlist );
-        $libelle = htmlspecialchars( $libelle );
-        $description = htmlspecialchars( $description );
+        $libelle = htmlspecialchars( trim( $libelle ) );
+        $description = htmlspecialchars( trim( $description ) );
 
         $cls_check->checkEditTask( $idtask, $idlist, $libelle, $description );
 
@@ -237,6 +237,7 @@ class cls_list
 
         $idtask = htmlspecialchars( $idtask );
         $idlist = htmlspecialchars( $idlist );
+        
         $cls_check->checkDeleteTask( $idtask, $idlist );
 
         $req = "

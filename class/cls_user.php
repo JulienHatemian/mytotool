@@ -29,7 +29,7 @@ class cls_user
     {
         $cls_check = new cls_check();
 
-        $login = htmlspecialchars( $login );
+        $login = htmlspecialchars( trim( $login ) );
         $password = htmlspecialchars( $password );
         $cls_check->checkLogin( $login, $password );
         
@@ -89,7 +89,7 @@ class cls_user
 
     public function join( string $login, string $password, string $passwordConfirmation ){
         $cls_check = new cls_check;
-        $login = htmlspecialchars( $login );
+        $login = htmlspecialchars( trim( $login ) );
         $password = htmlspecialchars( $password );
         $passwordConfirmation = htmlspecialchars( $passwordConfirmation );
 

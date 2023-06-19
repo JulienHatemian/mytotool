@@ -30,7 +30,7 @@
             <label for="new-task-input" class="mb-1 fw-bold">Ajouter une nouvelle tâche:</label>
             <input type="text" class="form-control" id="new-task-input" placeholder="Nouvelle tâche" name="libelle" maxlength="80">
 
-            <label for="task-description">Description</label>
+            <label for="task-description" class="fw-bold">Description</label>
             <textarea class="form-control description-textarea" name="description" id="task-description" cols="30" rows="10" placeholder="(Optionnel)" maxlength="255"></textarea>
 
             <input type="hidden" value="<?= $_GET[ 'idlist' ] ?>" name="list">
@@ -97,7 +97,7 @@
         <?php } ?>
     </div>
     <?php }else{ ?>
-      <small class="text-center fst-italic text-secondary mt-5">Aucune tâche renseignée pour le moment</small>
+      <small class="text-center fst-italic text-secondary mt-5 fw-bold">Aucune tâche renseignée pour le moment</small>
     <?php } ?>
 </div>
 

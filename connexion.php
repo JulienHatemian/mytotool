@@ -8,23 +8,22 @@
         header('Location: index.php');
     }
 ?>
-<h1>Page de connexion</h1>
-<div class="alert-error container">
+<div class="alert-error container my-2">
     <?= alert(); ?>
 </div>
-<form class="container d-flex flex-column" action="./controller/ctr_connexion.php" method="post" id="connexion">
+<form class="container d-flex flex-column mt-5" action="./controller/ctr_connexion.php" method="post" id="connexion">
     <div class="mb-3">
-        <label for="login" class="form-label">Adresse mail</label>
+        <label for="login" class="form-label text-secondary">Adresse mail</label>
         <input type="text" class="form-control" id="login" name="login">
     </div>
     <div class="mb-3">
-    <label for="password" class="form-label">Mot de passe</label>
-    <input type="password" class="form-control" id="password" name="password">
+        <label for="password" class="form-label text-secondary">Mot de passe</label>
+        <input type="password" class="form-control" id="password" name="password">
     </div>
 
-    <button type="submit" class="btn btn-success">Se connecter</button>
+    <button type="submit" class="btn btn-success mb-2">Se connecter</button>
+    <p class="text-center text-secondary">Vous n'avez pas encore de compte ? <a href="join.php" class="text-info">Inscrivez-vous</a></p>
 </form>
-<p class="text-center">Vous n'avez pas encore de compte ? <a href="join.php">Inscrivez-vous</a></p>
 
 <?php
     include './assets/partials/footer.php';

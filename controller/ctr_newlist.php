@@ -1,7 +1,6 @@
 <?php
 include '../assets/include/inc.php';
 
-
 try
 {
     $cls_list = new cls_list();

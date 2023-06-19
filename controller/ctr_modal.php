@@ -4,7 +4,6 @@ include '../assets/include/inc.php';
 try
 {
     $cls_list = new cls_list();
-
     $data = $cls_list->showModal( $_GET[ 'id' ] );
 
     $out[ 'success' ] = $data;

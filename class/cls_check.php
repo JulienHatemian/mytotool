@@ -133,6 +133,59 @@ class cls_check
         }
     }
 
+    public function checkEditList( int $idlist, string $libelle, string $description ):void
+    {
+        $cls_list = new cls_list();
+        $cls_user = new cls_user();
+        $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
+        $list = $cls_list->getListById( $idlist );
+
+        if( $cls_user->isConnected() === false ){
+            throw new Exception( 'Utilisateur non-valide.' );
+            header( 'Location: ../index.php' );
+        }
+
+        if( $list === null || $list->iduser != $user[ 0 ]->iduser ){
+            throw new Exception( 'Liste inconnue.' );
+            header( 'Location: ../index.php' );
+        }
+
+        if( empty( $libelle ) || !$libelle || !$idlist ){
+            throw new Exception( 'Données manquantes' );
+        }
+
+        if( strlen( $libelle ) > 30 ){
+            throw new Exception( 'Le libelle ne doit pas faire plus de 30 caractères.' );
+        }
+
+        if( strlen( $description ) > 255 ){
+            throw new Exception( 'Le description ne doit pas faire plus de 255 caractères.' );
+        }
+    }
+
+    public function checkDeleteList( int $idlist ):void
+    {
+        $cls_list = new cls_list();
+        $cls_user = new cls_user();
+        $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
+        $list = $cls_list->getListById( $idlist );
+
+        if( !isset( $idlist ) ){
+            throw new Exception( 'Données manquantes.' );
+            header( 'Location: ../index.php' );
+        }
+
+        if( $cls_user->isConnected() === false ){
+            throw new Exception( 'Utilisateur non-valide.' );
+            header( 'Location: ../index.php' );
+        }
+
+        if( $list === null || $list->iduser != $user[ 0 ]->iduser ){
+            throw new Exception( 'Liste inconnue.' );
+            header( 'Location: ../index.php' );
+        }
+    }
+
     public function checkDeleteTask( int $idtask, int $idlist ) :void
     {
         $cls_list = new cls_list();

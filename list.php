@@ -19,12 +19,20 @@
     }
 ?>
 
-<h2 class="ms-3 mt-3"><?= $liste->libelle ?></h2>
-<small class="ms-4"><?= $liste->description ?></small>
+<div class="d-flex flex-wrap align-items-center col-12 mb-2">
+  <div class="w-100">
+    <h2 class="ms-3 mt-3"><?= $liste->libelle ?></h2>
+    <small class="ms-4"><?= $liste->description ?></small>
+  </div>
+  <div class="mt-2 ms-2">
+    <button class="btn btn-warning" id="edit-list" data-bs-toggle="modal" data-bs-target="#modalEditionList">Editer</button>
+    <button class="btn btn-danger" id="delete-list" data-bs-toggle="modal" data-bs-target="#modalSuppressionList">Supprimer</button>
+  </div>
+</div>
 <div class="alert-error container">
     <?= alert(); ?>
 </div>
-<div class="d-flex mt-3">
+<div class="d-flex mt-3 flex-wrap">
     <div class="new-task d-flex flex-column p-3 align-items-center col-md-3">
         <form action="./controller/ctr_addtask.php" method="post">
             <label for="new-task-input" class="mb-1 fw-bold">Ajouter une nouvelle tâche:</label>
@@ -40,7 +48,7 @@
         </form>
     </div>
 
-    <div class="list-overall col-md-8 d-flex flex-column mx-3">
+    <div class="list-overall col-md-8 d-flex flex-column mx-3 my-3">
       <?php if( count( $ongoing ) > 0 || count( $complete ) > 0 ){ ?>
         <?php  if( count( $ongoing ) > 0 ){ ?>
         <div class="list-ongoing mb-5 rounded border-3 border border-secondary">
@@ -101,7 +109,7 @@
     <?php } ?>
 </div>
 
-<!-- Modal Suppression -->
+<!-- Modal Suppression Task -->
 <div class="modal fade" id="modalSuppression" tabindex="-1" aria-labelledby="ModalSuppressionLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -126,7 +134,7 @@
   </div>
 </div>
 
-<!-- Modal Edition -->
+<!-- Modal Edition Task -->
 <div class="modal fade" id="modalEdition" tabindex="-1" aria-labelledby="ModalEditionLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -154,6 +162,56 @@
   </div>
 </div>
 
+<!-- Modal Suppression List -->
+<div class="modal fade" id="modalSuppressionList" tabindex="-1" aria-labelledby="ModalSuppressionListLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h1 class="modal-title fs-5 text-white fw-bold" id="ModalSuppressionListLabel">Suppression de liste</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="./controller/ctr_deletelist.php" method="post">
+        <div class="modal-body">
+          <p>
+            Attention vous allez supprimer la liste <span class="fw-bold fst-italic text-warning" id="libelle-list-suppression"><?= $liste->libelle ?></span>, cette opération est <span class="text-danger fw-bold">irréversible</span>.<br><br>Êtes-vous sûr de vouloir continuer ?
+          </p>
+          <input type="hidden" name="list" value="<?= $liste->idlist ?>">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-danger">Supprimer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edition List -->
+<div class="modal fade" id="modalEditionList" tabindex="-1" aria-labelledby="ModalEditionListLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h1 class="modal-title fs-5 text-white fw-bold" id="ModalEditionListLabel">Edition de liste</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="./controller/ctr_editlist.php" method="post">
+        <div class="modal-body">
+          <label for="edit-list-input" class="mb-1 fw-bold">Libelle liste:</label>
+          <input type="text" class="form-control" id="edit-list-input" name="libelle" maxlength="30" value="<?= $liste->libelle ?>">
+
+          <label for="edit-list-description">Description</label>
+          <textarea class="form-control description-textarea" name="description" id="edit-list-description" cols="30" rows="10" placeholder="(Optionnel)" maxlength="255"><?= $liste->description ?></textarea>
+
+          <input type="hidden" name="list" value="<?= $liste->idlist ?>">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-warning text-white">Editer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <?php
     include './assets/partials/footer.php';
 ?>

@@ -6,21 +6,21 @@ class cls_list
     /**
      * Récupérer le tableau des listes
      *
-     * @param integer $id
+     * @param integer $iduser
      * @return array
      */
-    public function getListByUser( int $id ) :array
+    public function getListByUser( int $iduser ) :array
     {
         $req = "
             SELECT *
             FROM list
             LEFT JOIN user
             ON list.iduser = user.iduser
-            WHERE user.iduser = :id
+            WHERE user.iduser = :iduser
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':id', $id, PDO::PARAM_INT );
+        $sql->bindValue( ':iduser', $iduser, PDO::PARAM_INT );
 
         $sql->execute();
 
@@ -237,7 +237,7 @@ class cls_list
 
         $idtask = htmlspecialchars( $idtask );
         $idlist = htmlspecialchars( $idlist );
-        
+
         $cls_check->checkDeleteTask( $idtask, $idlist );
 
         $req = "
@@ -323,5 +323,66 @@ class cls_list
         $result = $this->getTaskById( $id );
 
         return $result;
+    }
+
+    public function editList( int $idlist, string $libelle, string $description ):void
+    {
+        $cls_check = new cls_check();
+
+        $idlist = htmlspecialchars( $idlist );
+        $libelle = htmlspecialchars( trim( $libelle ) );
+        $description = htmlspecialchars( trim( $description ) );
+
+        $cls_check->checkEditList( $idlist, $libelle, $description );
+
+        $req = "
+            UPDATE list
+            SET libelle = :libelle,
+                description = :description
+            WHERE idlist = :idlist
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':idlist', $idlist, PDO::PARAM_INT );
+        $sql->bindValue( ':libelle', $libelle, PDO::PARAM_STR );
+        $sql->bindValue( ':description', $description, PDO::PARAM_STR );
+
+        $sql->execute();
+
+    }
+
+    public function deleteList( int $idlist ):void
+    {
+        $cls_check = new cls_check();
+        $idlist = htmlspecialchars( $idlist );
+
+        $cls_check->checkDeleteList( $idlist );
+
+        //CLEAR TASK
+        $this->clearTask( $idlist );
+
+        $req = "
+            DELETE
+            FROM list
+            WHERE idlist = :idlist
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':idlist', $idlist, PDO::PARAM_INT );
+
+        $sql->execute();
+    }
+
+    private function clearTask( int $idlist ){
+        $req = "
+            DELETE
+            FROM task
+            WHERE idlist = :idlist
+        ";
+
+        $sql = $this->pdo()->prepare( $req );
+        $sql->bindValue( ':idlist', $idlist, PDO::PARAM_INT );
+
+        $sql->execute();
     }
 }

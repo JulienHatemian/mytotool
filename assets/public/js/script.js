@@ -3,6 +3,8 @@ document.addEventListener( "DOMContentLoaded", function() {
     textLength( 'input-add-description-list', 'container-add-description', 255 );
     textLength( 'new-task-input', 'new-task-input', 80 );
     textLength( 'task-description', 'task-description', 255 );
+    textLength( 'edit-list-input', 'edit-list-input', 30 );
+    textLength( 'edit-list-description', 'edit-list-description', 255 );
 } )
 
 /**

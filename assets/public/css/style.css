@@ -8,8 +8,8 @@
 }
 
 .liste{
-    height: 10em;
-    width: 10em;
+    height: 8em;
+    width: 8em;
     border: 5px solid black;
     border-radius: 12px;
     margin: 20px;
@@ -64,6 +64,14 @@ a, a:hover{
     animation: rotation 1.5s ease-in-out infinite;
 }
 
+.test{
+    width: 50%;
+    
+}
+
+h2{
+    word-wrap: break-word;
+}
 @keyframes rotation{
     from{
         transform: rotate( 0deg );

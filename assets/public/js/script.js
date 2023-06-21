@@ -1,7 +1,7 @@
 document.addEventListener( "DOMContentLoaded", function() {
     textLength( 'input-add-libelle-list', 'container-add-libelle', 30 );
     textLength( 'input-add-description-list', 'container-add-description', 255 );
-    textLength( 'new-task-input', 'new-task-input', 80 );
+    textLength( 'new-task-input', 'new-task-input', 70 );
     textLength( 'task-description', 'task-description', 255 );
     textLength( 'edit-list-input', 'edit-list-input', 30 );
     textLength( 'edit-list-description', 'edit-list-description', 255 );
@@ -35,7 +35,7 @@ function modal( id, modalName) {
             deleteTask.value = json.success.idtask;
             editTask.value = json.success.idtask;
             
-            textLength( 'edit-task-input', 'edit-task-input', 80 );
+            textLength( 'edit-task-input', 'edit-task-input', 70 );
             textLength( 'edit-task-description', 'edit-task-description', 255 );
         
             modal.show();

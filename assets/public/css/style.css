@@ -49,10 +49,12 @@ a, a:hover{
 }
 
 .list-complete, .list-ongoing{
-    max-height: 45vh;
+    max-height: 50vh;
+    overflow: hidden;
 }
 
 .list-body{
+    height: 40vh;
     overflow-y: scroll;
 }
 

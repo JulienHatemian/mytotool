@@ -59,7 +59,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-heading<?= $key ?>">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $key ?>-ongoing" aria-expanded="false" aria-controls="flush-collapse<?= $key ?>">
-                            <div><?=  mb_strimwidth( $item->libelle, 0, 90 ) ?> ............. </div>
+                            <div><?=  mb_strimwidth( $item->libelle, 0, 70 ) ?> ... </div>
                             <div class="ms-3 btn-action">
                                 <a class="btn btn-warning" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalEdition' )"><img src="./assets/public/img/icons8-edit-text-file-50.png" alt="logo édition" class="logo-list"></a>
                                 <a class="btn btn-danger" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalSuppression' )"><img src="./assets/public/img/icons8-supprimer-50.png" alt="logo suppression" class="logo-list"></a>
@@ -68,7 +68,7 @@
                         </button>
                         </h2>
                         <div id="flush-collapse<?= $key ?>-ongoing" class="accordion-collapse collapse" aria-labelledby="flush-heading<?= $key ?>" data-bs-parent="#accordionFlushOngoing">
-                            <div class="accordion-body fst-italic text-secondary"><?php if( strlen( $item->description ) > 0 ) { ?><?= $item->description ?><?php }else{ ?><small class="fst-italic">Pas de description disponible</small><?php } ?></div>
+                            <div class="accordion-body fst-italic text-secondary"><?php if( strlen( $item->description ) > 0 ) { ?><p class="text-break"><?= $item->description ?></p><?php }else{ ?><small class="fst-italic">Pas de description disponible</small><?php } ?></div>
                         </div>
                     </div>
                     <?php } ?>
@@ -86,7 +86,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-headingOne">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $key ?>-complete" aria-expanded="false" aria-controls="flush-collapse<?= $key ?>">
-                            <div><?=  mb_strimwidth( $item->libelle, 0, 90 ) ?> ............. </div>
+                            <div><?=  mb_strimwidth( $item->libelle, 0, 70 ) ?> ... </div>
                             <div class="ms-3 btn-action d-flex justify-content-between">
                                 <a class="btn btn-warning me-1" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalEdition' )"><img src="./assets/public/img/icons8-edit-text-file-50.png" alt="logo édition" class="logo-list"></a>
                                 <a class="btn btn-danger me-1" href="javascript:;" onclick="javascript:modal( <?= $item->idtask ?>, 'modalSuppression' )"><img src="./assets/public/img/icons8-supprimer-50.png" alt="logo suppression" class="logo-list"></a>
@@ -95,7 +95,7 @@
                         </button>
                         </h2>
                         <div id="flush-collapse<?= $key ?>-complete" class="accordion-collapse collapse" aria-labelledby="flush-heading<?= $key ?>" data-bs-parent="#accordionFlushComplete">
-                            <div class="accordion-body fst-italic text-secondary"><?php if( strlen( $item->description ) > 0 ) { ?><?= $item->description ?><?php }else{ ?><small class="fst-italic">Pas de description disponible</small><?php } ?></div>
+                            <div class="accordion-body fst-italic text-secondary"><?php if( strlen( $item->description ) > 0 ) { ?><p class="text-break"><?= $item->description ?></p><?php }else{ ?><small class="fst-italic">Pas de description disponible</small><?php } ?></div>
                         </div>
                     </div>
                     <?php } ?>
@@ -120,7 +120,7 @@
       <form action="./controller/ctr_deletetask.php" method="post">
         <div class="modal-body">
           <p>
-            Attention vous allez supprimer la tâche <span class="fw-bold fst-italic text-warning" id="libelle-suppression"></span>, cette opération est <span class="text-danger fw-bold">irréversible</span>.<br><br>Êtes-vous sûr de vouloir continuer ?
+            Attention vous allez supprimer la tâche <span class="fw-bold fst-italic text-warning text-break" id="libelle-suppression"></span>, cette opération est <span class="text-danger fw-bold">irréversible</span>.<br><br>Êtes-vous sûr de vouloir continuer ?
           </p>
           <input type="hidden" name="task" id="delete-task" value="">
           <input type="hidden" name="list" value="<?= $_GET[ 'idlist' ] ?>">
@@ -173,7 +173,7 @@
       <form action="./controller/ctr_deletelist.php" method="post">
         <div class="modal-body">
           <p>
-            Attention vous allez supprimer la liste <span class="fw-bold fst-italic text-warning" id="libelle-list-suppression"><?= $liste->libelle ?></span>, cette opération est <span class="text-danger fw-bold">irréversible</span>.<br><br>Êtes-vous sûr de vouloir continuer ?
+            Attention vous allez supprimer la liste <span class="fw-bold fst-italic text-warning text-break" id="libelle-list-suppression"><?= $liste->libelle ?></span>, cette opération est <span class="text-danger fw-bold">irréversible</span>.<br><br>Êtes-vous sûr de vouloir continuer ?
           </p>
           <input type="hidden" name="list" value="<?= $liste->idlist ?>">
         </div>

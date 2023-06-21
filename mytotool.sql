@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 16 juin 2023 à 02:06
+-- Généré le : mer. 21 juin 2023 à 06:59
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.1.13
 
@@ -32,15 +32,15 @@ USE `mytotool`;
 DROP TABLE IF EXISTS `list`;
 CREATE TABLE IF NOT EXISTS `list` (
   `idlist` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `libelle` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `libelle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `orderlist` int NOT NULL,
   `idtypelist` int UNSIGNED NOT NULL,
   `iduser` int UNSIGNED NOT NULL,
   PRIMARY KEY (`idlist`),
   KEY `FK_TYPE_LIST` (`idtypelist`),
   KEY `FK_USER_LIST` (`iduser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -51,13 +51,13 @@ CREATE TABLE IF NOT EXISTS `list` (
 DROP TABLE IF EXISTS `task`;
 CREATE TABLE IF NOT EXISTS `task` (
   `idtask` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `libelle` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `libelle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `complete` tinyint(1) NOT NULL DEFAULT '0',
   `idlist` int UNSIGNED NOT NULL,
   PRIMARY KEY (`idtask`),
   KEY `FK_TASK_LIST` (`idlist`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -68,9 +68,17 @@ CREATE TABLE IF NOT EXISTS `task` (
 DROP TABLE IF EXISTS `type_list`;
 CREATE TABLE IF NOT EXISTS `type_list` (
   `idtypelist` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `libelle` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `libelle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`idtypelist`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `type_list`
+--
+
+INSERT INTO `type_list` (`idtypelist`, `libelle`) VALUES
+(1, 'Liste basique'),
+(2, 'Agenda');
 
 -- --------------------------------------------------------
 
@@ -81,10 +89,10 @@ CREATE TABLE IF NOT EXISTS `type_list` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `iduser` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `login` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `login` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`iduser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Contraintes pour les tables déchargées

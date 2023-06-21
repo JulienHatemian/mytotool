@@ -88,7 +88,6 @@ class cls_list
         $user = htmlspecialchars( $user );
 
         $cls_check->checkAddList( $libelle, $description, $type, $user );
-
         
         $req = "
             INSERT INTO list (

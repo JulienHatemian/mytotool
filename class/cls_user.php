@@ -25,7 +25,7 @@ class cls_user
      * @return array
      */
     // public function getConnected( array $params )
-    public function getConnected( string $login, string $password,  )
+    public function getConnected( string $login, string $password ) :void
     {
         $cls_check = new cls_check();
 

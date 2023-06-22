@@ -12,6 +12,7 @@ L'application se découpe en 3 grands axes.
 
 ## Instructions:
 Pour mettre en place l'application:
+
   1 - Cloner la Main  
   2 - Configurer la base de donnée et uploader le fichier mytotool.sql  
   3 - Vous pouvez initialiser le projet  

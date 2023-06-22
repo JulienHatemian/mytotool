@@ -19,12 +19,13 @@ class cls_user
     }
 
     /**
-     * Se connecter
+     * Connexion à MyToTool
      *
-     * @param array $params
-     * @return array
+     * @param string $login
+     * @param string $password
+     * 
+     * @return void
      */
-    // public function getConnected( array $params )
     public function getConnected( string $login, string $password ) :void
     {
         $cls_check = new cls_check();
@@ -46,9 +47,9 @@ class cls_user
     }
 
     /**
-     * Check si login exist
+     * Check si le login exist
      *
-     * @param string $params
+     * @param string $login
      * @return array
      */
     public function getLogin( string $login ) : array
@@ -67,6 +68,14 @@ class cls_user
         return $sql->fetchAll();
     }
 
+    /**
+     * Ajout d'un utilisateur
+     *
+     * @param string $login
+     * @param string $password
+     * 
+     * @return void
+     */
     public function addUser( string $login, string $password ) :void
     {
         $req = "
@@ -87,6 +96,15 @@ class cls_user
         $sql->execute();
     }
 
+    /**
+     * Inscrisption à MyToTool
+     *
+     * @param string $login
+     * @param string $password
+     * @param string $passwordConfirmation
+     * 
+     * @return void
+     */
     public function join( string $login, string $password, string $passwordConfirmation ){
         $cls_check = new cls_check;
         $login = htmlspecialchars( trim( $login ) );

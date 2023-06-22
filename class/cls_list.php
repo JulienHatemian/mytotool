@@ -5,8 +5,8 @@ class cls_list
 {
     /**
      * Récupérer le tableau des listes
-     *
-     * @param integer $iduser
+     * @param int $iduser
+     * 
      * @return array
      */
     public function getListByUser( int $iduser ) :array
@@ -27,7 +27,13 @@ class cls_list
         return $sql->fetchAll();
     }
 
-    public function getListById( int $id ) :object
+    /**
+     * Récupérer la liste en objet en fonction de l'id
+     * @param int $id
+     * 
+     * @return object|bool
+     */
+    public function getListById( int $id ) :object|bool
     {
         $cls_user = new cls_user();
         $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
@@ -48,6 +54,11 @@ class cls_list
         return $sql->fetch();
     }
 
+    /**
+     * Récupérer le tableau des différents types de listes
+     * 
+     * @return array
+     */
     public function getTypeList() :array
     {
         $req = "
@@ -62,6 +73,12 @@ class cls_list
         return $sql->fetchAll();
     }
 
+    /**
+     * Récupérer le type de liste en fonction de son id
+     * @param int $idtype
+     * 
+     * @return array
+     */
     public function getTypeListById( int $idtype ) :array
     {
         $req = "
@@ -78,6 +95,15 @@ class cls_list
         return $sql->fetchAll();
     }
 
+    /**
+     * Récupérer le type de liste en fonction de son id
+     * @param string $libelle
+     * @param string $description
+     * @param int $type
+     * @param int $user
+     * 
+     * @return void
+     */
     public function addList( string $libelle, string $description, int $type, int $user ) :void
     {
         $cls_check = new cls_check();
@@ -113,6 +139,15 @@ class cls_list
         $sql->execute();
     }
 
+    /**
+     * Ajouter une nouvelle tâche
+     * @param string $libelle
+     * @param string $description
+     * @param int $user
+     * @param int $list
+     * 
+     * @return void
+     */
     public function addTask( string $libelle, string $description, int $user, int $list ) :void
     {
         $cls_check = new cls_check();
@@ -145,6 +180,12 @@ class cls_list
         $sql->execute();
     }
 
+    /**
+     * Récupère les tâches avec l'état "En cours"
+     * @param int $idlist
+     * 
+     * @return array
+     */
     public function getTaskOnGoing( int $idlist ) :array{
         $req = "
             SELECT *
@@ -162,6 +203,12 @@ class cls_list
         return $sql->fetchAll();
     }
 
+    /**
+     * Récupère les tâches avec l'état "Complété"
+     * @param int $idlist
+     * 
+     * @return array
+     */
     public function getTaskComplete( int $idlist ) :array
     {
         $req = "
@@ -180,7 +227,13 @@ class cls_list
         return $sql->fetchAll();
     }
 
-    public function getTaskById( int $idtask ) :object{
+    /**
+     * Récupère l'objet de la tâche en fonction de l'Id de la tâche
+     * @param int $idtask
+     * 
+     * @return object|bool
+     */
+    public function getTaskById( int $idtask ) :object|bool{
         $req = "
             SELECT
                 task.idtask,
@@ -206,6 +259,15 @@ class cls_list
         return $sql->fetch();
     }
 
+    /**
+     * Récupère l'objet de la tâche en fonction de l'Id de la tâche
+     * @param int $idtask
+     * @param int $idlist
+     * @param string $libelle
+     * @param string $description
+     * 
+     * @return void
+     */
     public function editTask( int $idtask, int $idlist, string $libelle, string $description ) :void {
         $cls_check = new cls_check();
 
@@ -231,6 +293,13 @@ class cls_list
         $sql->execute();
     }
 
+    /**
+     * Supprimer une tâche
+     * @param int $idtask
+     * @param int $idlist
+     * 
+     * @return void
+     */
     public function deleteTask( int $idtask, int $idlist ) :void {
         $cls_check = new cls_check();
 
@@ -253,6 +322,12 @@ class cls_list
         $sql->execute();
     }
 
+    /**
+     * Modifie le status d'une tâche (En "complété" ou "en cours")
+     * @param int $idtask
+     * 
+     * @return void
+     */
     public function updateStatus( int $idtask ) :void {
         $cls_check = new cls_check();
 
@@ -269,7 +344,13 @@ class cls_list
         
     }
 
-    private function updateComplete( int $id ) :void {
+    /**
+     * Passer une tâche à l'état "Complété"
+     * @param int $idtask
+     * 
+     * @return void
+     */
+    private function updateComplete( int $idtask ) :void {
         $req = "
             UPDATE task
             SET complete = 1
@@ -278,12 +359,18 @@ class cls_list
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':idtask', $id, PDO::PARAM_INT );
+        $sql->bindValue( ':idtask', $idtask, PDO::PARAM_INT );
 
         $sql->execute();
     }
 
-    private function updateOngoing( int $id ) :void {
+    /**
+     * Passer une tâche à l'état "En cours"
+     * @param int $idtask
+     * 
+     * @return void
+     */
+    private function updateOngoing( int $idtask ) :void {
         $req = "
             UPDATE task
             SET complete = 0
@@ -292,11 +379,17 @@ class cls_list
         ";
 
         $sql = $this->pdo()->prepare( $req );
-        $sql->bindValue( ':idtask', $id, PDO::PARAM_INT );
+        $sql->bindValue( ':idtask', $idtask, PDO::PARAM_INT );
 
         $sql->execute();
     }
 
+    /**
+     * Récupère l'état d'une tâche
+     * @param int $idtask
+     * 
+     * @return int
+     */
     private function getStatus( int $idtask ) :int {
         $req = "
             SELECT complete
@@ -313,17 +406,31 @@ class cls_list
         return $result->complete;
     }
 
-    public function showModal( int $id ) :object
+    /**
+     * Récupère les données pour un modal sur la page des tâches
+     * @param int $idtask
+     * 
+     * @return object|bool
+     */
+    public function showModal( int $idtask ) :object|bool
     {
         $cls_check = new cls_check();
 
-        $cls_check->checkModal( $id );
+        $cls_check->checkModalTask( $idtask );
 
-        $result = $this->getTaskById( $id );
+        $result = $this->getTaskById( $idtask );
 
         return $result;
     }
 
+    /**
+     * Modifier les données d'une liste
+     * @param int $idlist
+     * @param string $libelle
+     * @param string $description
+     * 
+     * @return void
+     */
     public function editList( int $idlist, string $libelle, string $description ):void
     {
         $cls_check = new cls_check();
@@ -350,6 +457,12 @@ class cls_list
 
     }
 
+    /**
+     * Supprimer une liste
+     * @param int $idlist
+     * 
+     * @return void
+     */
     public function deleteList( int $idlist ):void
     {
         $cls_check = new cls_check();
@@ -372,7 +485,14 @@ class cls_list
         $sql->execute();
     }
 
-    private function clearTask( int $idlist ){
+    /**
+     * Supprimer les tâche d'une liste en fonction de son Id
+     * @param int $idlist
+     * 
+     * @return void
+     */
+    private function clearTask( int $idlist ):void
+    {
         $req = "
             DELETE
             FROM task

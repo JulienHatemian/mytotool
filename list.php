@@ -5,7 +5,6 @@
 
     $cls_list = new cls_list();
     $cls_user = new cls_user();
-
     if( $cls_user->isConnected() === false ){
         header('Location: connexion.php');
     }elseif( $cls_list->getListById( $_GET[ 'idlist' ] ) === false ){

@@ -101,10 +101,6 @@ class cls_check
         if( count( $cls_list->getTypeListById( $idtype ) ) == 0 ){
             throw new Exception( 'Type non-valide.' );
         }
-
-        // if(  ){
-        //     throw new Exception( 'Libelle de liste déjà existante.' );
-        // }
     }
 
     /**

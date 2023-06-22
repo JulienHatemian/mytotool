@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 21 juin 2023 à 06:59
+-- Généré le : jeu. 22 juin 2023 à 11:40
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.1.13
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `list` (
   PRIMARY KEY (`idlist`),
   KEY `FK_TYPE_LIST` (`idtypelist`),
   KEY `FK_USER_LIST` (`iduser`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `task` (
   `idlist` int UNSIGNED NOT NULL,
   PRIMARY KEY (`idtask`),
   KEY `FK_TASK_LIST` (`idlist`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -69,16 +69,20 @@ DROP TABLE IF EXISTS `type_list`;
 CREATE TABLE IF NOT EXISTS `type_list` (
   `idtypelist` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `libelle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`idtypelist`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `type_list`
 --
 
-INSERT INTO `type_list` (`idtypelist`, `libelle`) VALUES
-(1, 'Liste basique'),
-(2, 'Agenda');
+INSERT INTO `type_list` (`idtypelist`, `libelle`, `description`) VALUES
+(1, 'Basique', 'Créez des tâches, définissez des statuts'),
+(2, 'Agenda', 'Planifiez un projet, organisez, dirigez'),
+(3, 'Courses', 'Notez, validez, achetez'),
+(4, 'Liste collaborative', 'Invitez, innovez ensemble'),
+(5, 'Finance', 'Planifiez vos dépenses');
 
 -- --------------------------------------------------------
 
@@ -92,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `login` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`iduser`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Contraintes pour les tables déchargées

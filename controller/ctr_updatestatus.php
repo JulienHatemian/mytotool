@@ -6,7 +6,7 @@ try
     $cls_list = new cls_list();
     $data = $cls_list->updateStatus( (int) $_GET[ 'task' ] );
 
-    $_SESSION[ 'alert' ][ 'success' ] = "Status de tâche modifiée";
+    $_SESSION[ 'alert' ][ 'success' ] = "Statut de tâche modifié";
 }
 catch( Exception $e )
 {

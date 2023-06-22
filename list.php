@@ -24,8 +24,8 @@
     <small class="ms-4"><?= $liste->description ?></small>
   </div>
   <div class="mt-2 ms-2">
-    <button class="btn btn-warning" id="edit-list" data-bs-toggle="modal" data-bs-target="#modalEditionList">Editer</button>
-    <button class="btn btn-danger" id="delete-list" data-bs-toggle="modal" data-bs-target="#modalSuppressionList">Supprimer</button>
+    <button class="btn btn-warning fw-bold text-white" id="edit-list" data-bs-toggle="modal" data-bs-target="#modalEditionList">Editer</button>
+    <button class="btn btn-danger fw-bold" id="delete-list" data-bs-toggle="modal" data-bs-target="#modalSuppressionList">Supprimer</button>
   </div>
 </div>
 <div class="alert-error container">
@@ -34,8 +34,8 @@
 <div class="d-flex mt-3 flex-wrap">
     <div class="new-task d-flex flex-column p-3 align-items-center col-md-3">
         <form action="./controller/ctr_addtask.php" method="post">
-            <label for="new-task-input" class="mb-1 fw-bold">Ajouter une nouvelle tâche:</label>
-            <input type="text" class="form-control" id="new-task-input" placeholder="Nouvelle tâche" name="libelle" maxlength="80">
+            <label for="new-task-input" class="mb-1 fw-bold">Ajouter une nouvelle tâche<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="new-task-input" placeholder="Nouvelle tâche" name="libelle" maxlength="70" required>
 
             <label for="task-description" class="fw-bold">Description</label>
             <textarea class="form-control description-textarea" name="description" id="task-description" cols="30" rows="10" placeholder="(Optionnel)" maxlength="255"></textarea>
@@ -43,6 +43,7 @@
             <input type="hidden" value="<?= $_GET[ 'idlist' ] ?>" name="list">
             <input type="hidden" value="<?= $login[ 0 ]->iduser ?>" name="user">
 
+            <p class="fst-italic m-0 mt-1"><span class="text-danger">*</span>Obligatoire</p>
             <button type="submit" class="btn btn-success float-end mt-2">Valider</button>
         </form>
     </div>
@@ -143,14 +144,15 @@
       </div>
       <form action="./controller/ctr_edittask.php" method="post">
         <div class="modal-body">
-          <label for="new-task-input" class="mb-1 fw-bold">Libelle tâche:</label>
-          <input type="text" class="form-control" id="edit-task-input" name="libelle" maxlength="80">
+          <label for="new-task-input" class="mb-1 fw-bold">Libelle tâche<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="edit-task-input" name="libelle" maxlength="70" required>
 
           <label for="task-description">Description</label>
           <textarea class="form-control description-textarea" name="description" id="edit-task-description" cols="30" rows="10" placeholder="(Optionnel)" maxlength="255"></textarea>
 
           <input type="hidden" name="task" id="edit-task" value="">
           <input type="hidden" name="list" value="<?= $_GET[ 'idlist' ] ?>">
+          <p class="fst-italic m-0 mt-1"><span class="text-danger">*</span>Obligatoire</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -195,13 +197,14 @@
       </div>
       <form action="./controller/ctr_editlist.php" method="post">
         <div class="modal-body">
-          <label for="edit-list-input" class="mb-1 fw-bold">Libelle liste:</label>
-          <input type="text" class="form-control" id="edit-list-input" name="libelle" maxlength="30" value="<?= $liste->libelle ?>">
+          <label for="edit-list-input" class="mb-1 fw-bold">Libelle liste<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="edit-list-input" name="libelle" maxlength="30" value="<?= $liste->libelle ?>" required>
 
-          <label for="edit-list-description">Description</label>
-          <textarea class="form-control description-textarea" name="description" id="edit-list-description" cols="30" rows="10" placeholder="(Optionnel)" maxlength="255"><?= $liste->description ?></textarea>
+          <label for="edit-list-description">Description<span class="text-danger">*</span></label>
+          <textarea class="form-control description-textarea" name="description" id="edit-list-description" cols="30" rows="10" placeholder="De quoi parle votre liste" maxlength="255" required><?= $liste->description ?></textarea>
 
           <input type="hidden" name="list" value="<?= $liste->idlist ?>">
+          <p class="fst-italic m-0 mt-1"><span class="text-danger">*</span>Obligatoire</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>

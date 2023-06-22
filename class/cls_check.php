@@ -45,8 +45,8 @@ class cls_check
             throw new Exception( 'Veuillez rentrer un format de mail valide et avec 255 caractères maximum.' );
           }
 
-        if ( ( strlen( $password ) < 8 || strlen( $password ) > 255 ) || !preg_match("/\d/", $password ) || !preg_match("/[A-Z]/", $password ) || !preg_match("/[a-z]/", $password ) || !preg_match( "/\W/", $password ) ) {
-            throw new Exception( 'Votre mot de passe doit contenir au moins 8 caractères, une minuscule, une majuscule, un chiffre et un caractère spécial' );
+        if ( ( strlen( $password ) < 8 || strlen( $password ) > 255 ) || !preg_match("/\d/", $password ) || !preg_match("/[A-Z]/", $password ) || !preg_match("/[a-z]/", $password ) ) {
+            throw new Exception( 'Votre mot de passe doit contenir au moins 8 caractères, une minuscule, une majuscule, un chiffre.' );
         }
 
         if( $password != $passwordconfirmation ){
@@ -68,7 +68,12 @@ class cls_check
         $cls_user = new cls_user();
         $cls_list = new cls_list();
 
+        if( $cls_user->isConnected() === false ){
+            throw new Exception( 'Non-connecté' );
+        }
+
         $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
+
         if( $iduser != $user[ 0 ]->iduser ){
             throw new Exception( 'Utilisateur non-valide.' );
         }
@@ -96,6 +101,10 @@ class cls_check
         if( count( $cls_list->getTypeListById( $idtype ) ) == 0 ){
             throw new Exception( 'Type non-valide.' );
         }
+
+        // if(  ){
+        //     throw new Exception( 'Libelle de liste déjà existante.' );
+        // }
     }
 
     /**
@@ -112,8 +121,11 @@ class cls_check
         $cls_user = new cls_user();
         $cls_list = new cls_list();
 
-        $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
+        if( $cls_user->isConnected() === false ){
+            throw new Exception( 'Non-connecté' );
+        }
 
+        $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
         if( $iduser != $user[ 0 ]->iduser ){
             throw new Exception( 'Utilisateur non-valide.' );
         }
@@ -145,8 +157,13 @@ class cls_check
     public function checkModalTask( int $id ) :void
     {
         $cls_list = new cls_list();
-        $task = $cls_list->getTaskById( $id );
+        $cls_user = new cls_user();
 
+        if( $cls_user->isConnected() === false ){
+            throw new Exception( 'Non-connecté' );
+        }
+
+        $task = $cls_list->getTaskById( $id );
         if( $task === null || $task->login != $_SESSION[ 'profil' ][ 'login' ] ){
             throw new Exception( 'Tâche non-valides' );
             header( 'Location: ../index.php' );
@@ -165,6 +182,12 @@ class cls_check
     public function checkEditTask( int $idtask, int $idlist, string $libelle, string $description ) :void
     {
         $cls_list = new cls_list();
+        $cls_user = new cls_user();
+
+        if( $cls_user->isConnected() === false ){
+            throw new Exception( 'Non-connecté' );
+        }
+
         $task = $cls_list->getTaskById( $idtask );
 
         if( $task === null || $task->login != $_SESSION[ 'profil' ][ 'login' ] ){
@@ -201,6 +224,11 @@ class cls_check
     {
         $cls_list = new cls_list();
         $cls_user = new cls_user();
+
+        if( $cls_user->isConnected() === false ){
+            throw new Exception( 'Non-connecté' );
+        }
+
         $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
         $list = $cls_list->getListById( $idlist );
 
@@ -214,7 +242,7 @@ class cls_check
             header( 'Location: ../index.php' );
         }
 
-        if( empty( $libelle ) || !$libelle || !$idlist ){
+        if( empty( $libelle ) || !$libelle || empty( $description ) || !$description || !$idlist ){
             throw new Exception( 'Données manquantes' );
         }
 
@@ -237,6 +265,11 @@ class cls_check
     {
         $cls_list = new cls_list();
         $cls_user = new cls_user();
+
+        if( $cls_user->isConnected() === false ){
+            throw new Exception( 'Non-connecté' );
+        }
+
         $user = $cls_user->getLogin( $_SESSION[ 'profil' ][ 'login' ] );
         $list = $cls_list->getListById( $idlist );
 
@@ -266,6 +299,12 @@ class cls_check
     public function checkDeleteTask( int $idtask, int $idlist ) :void
     {
         $cls_list = new cls_list();
+        $cls_user = new cls_user();
+
+        if( $cls_user->isConnected() === false ){
+            throw new Exception( 'Non-connecté' );
+        }
+
         $task = $cls_list->getTaskById( $idtask );
 
         if( !isset( $idtask ) || !isset( $idlist ) ){
@@ -293,6 +332,12 @@ class cls_check
     public function checkUpdateStatus( int $idtask ) :void
     {
         $cls_list = new cls_list();
+        $cls_user = new cls_user();
+
+        if( $cls_user->isConnected() === false ){
+            throw new Exception( 'Non-connecté' );
+        }
+
         $task = $cls_list->getTaskById( $idtask );
 
         if( !isset( $idtask ) ){

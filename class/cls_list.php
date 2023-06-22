@@ -323,7 +323,7 @@ class cls_list
     }
 
     /**
-     * Modifie le status d'une tâche (En "complété" ou "en cours")
+     * Modifie le statut d'une tâche (En "complété" ou "en cours")
      * @param int $idtask
      * 
      * @return void
